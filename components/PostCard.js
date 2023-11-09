@@ -22,6 +22,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
+    borderWidth: 2, // Increase the border width
+  borderColor: 'green', // Set the border color
   },
   title: {
     fontSize: 18,
