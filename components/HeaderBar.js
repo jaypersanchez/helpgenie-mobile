@@ -28,8 +28,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between', // Updated to space-between
   },
   headerText: {
-    color: 'white',
+    fontFamily: 'Comic Sans MS',
+    color: 'yellow',
     fontSize: 18,
+    fonthWeigth: 'bold'
   },
   icon: {
     width: 40,
