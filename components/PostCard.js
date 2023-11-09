@@ -1,13 +1,33 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const PostCard = ({ title, content, estimatedBudget }) => {
+
+    const [showMoreInfo, setShowMoreInfo] = useState(false);
+
+    const handleCardPress = () => {
+        // Implement the logic to show more information
+        console.log(`Card tapped! More info for: ${title}`);
+        setShowMoreInfo(!showMoreInfo);
+    };
+
   return (
+    <TouchableOpacity onPress={handleCardPress}>
     <View style={styles.card}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.content}>{content}</Text>
       <Text style={styles.budget}>{estimatedBudget}</Text>
+
+      {/* Additional information */}
+      {showMoreInfo && (
+          <View>
+            {/* Add more information components here */}
+            <Text>Additional Information: ...</Text>
+          </View>
+        )}
+
     </View>
+    </TouchableOpacity>
   );
 };
 
