@@ -1,41 +1,39 @@
 
-//import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import HeaderBar from './components/HeaderBar';
-import FooterBar from './components/FotterBar';
+import AuthScreen from './components/AuthScreen';
 import Card from './components/PostCard'
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import MainApp from './components/MainApp';
 
-export default function App() {
+const Stack = createStackNavigator();
 
-  // Dummy data for 5 cards
-  const cards = [
-    { id: 1, title: 'Septic Tank Siphoning', content: 'Need to clean my septic tank', estimatedBudget: "P500" },
-    { id: 2, title: 'Engineer and Architect', content: 'Looking for an Engineer and Architect to help build our house', estimatedBudget: "P500" },
-    { id: 3, title: 'Underground water suppy', content: 'Need to have deep well water source for drinking', estimatedBudget: "P500" },
-    { id: 4, title: 'Auto mechanic', content: 'Kailangan po namin local auto mechanic para sa owner po namin', estimatedBudget: "P500" },
-    { id: 5, title: 'Custom cabinets', content: 'Gusto po naming mag pagawa ng custom cabinets para sa kuwarto at kusina', estimatedBudget: "P500" },
-    { id: 6, title: 'Roofing', content: 'Kailangan mag lagay ng bubong sa roof top deck namin po', estimatedBudget: "P500" },
-    { id: 7, title: 'Painting service', content: 'Kailangan po pa paint yung labas ng bahay po namin', estimatedBudget: "P500" },
-    { id: 8, title: 'Septic Tank Siphoning', content: 'Need to clean my septic tank', estimatedBudget: "P500" },
-    { id: 9, title: 'Auto mechanic', content: 'Kailangan po namin local auto mechanic para sa owner po namin', estimatedBudget: "P500" },
-    { id: 10, title: 'Full time security guard', content: 'Naghahanap ng night time security guard', estimatedBudget: "P500" },
-  ];
+const App = () => {
 
+  const [user, setUser] = useState({
+    id: 1,
+    username: 'exampleUser',
+    email: 'user@example.com',
+    // Other user data you want to include
+  });
+  
   return (
-    <View style={styles.container}>
-      <HeaderBar />
-      <ScrollView style={styles.mainContent}>
-        {/* Render each card */}
-        {cards.map((card) => (
-          <Card key={card.id} title={card.title} content={card.content} estimatedBudget={card.estimatedBudget} />
-        ))}
-      </ScrollView>
-      <FooterBar />
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {user ? (
+          // Render the main app if the user is logged in
+          <Stack.Screen name="MainApp" component={MainApp} />
+        ) : (
+          // Render the login/signup screen if the user is not logged in
+          <Stack.Screen name="AuthScreen" component={AuthScreen} />
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -50,3 +48,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16, // Padding on the sides
   },
 });
+
+export default App;
