@@ -9,6 +9,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MainApp from './components/MainApp';
 import PostJobAd from './components/PostJobAd';
 import SearchForJobs from './components/SearchForJobs';
+import Messages from './components/Messages';
 
 const Stack = createStackNavigator();
 
@@ -34,6 +35,7 @@ const App = () => {
         )}
         <Stack.Screen name="PostJobAd" component={PostJobAd} />
         <Stack.Screen name="SearchForJobs" component={SearchForJobs} />
+        <Stack.Screen name="Messages" component={Messages} />
       </Stack.Navigator>
     </NavigationContainer>
   );
