@@ -12,13 +12,19 @@ const FooterBar = () => {
     navigation.navigate('PostJobAd');
   };
 
+  const handleSearch = () => {
+    navigation.navigate('SearchForJobs');
+  }
+
   return (
     <View style={styles.footer}>
       
       <TouchableOpacity onPress={handlePlusSquarePress}>
         <Icon name="plus-square" size={30} color="white" />
       </TouchableOpacity>
-      <Icon name="search" size={30} color="white" />
+      <TouchableOpacity onPress={handleSearch}>
+        <Icon name="search" size={30} color="white" />
+      </TouchableOpacity>
       <Icon name="envelope" size={30} color="white" />
     </View>
   );

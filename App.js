@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MainApp from './components/MainApp';
 import PostJobAd from './components/PostJobAd';
+import SearchForJobs from './components/SearchForJobs';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ const App = () => {
           <Stack.Screen name="AuthScreen" component={AuthScreen} />
         )}
         <Stack.Screen name="PostJobAd" component={PostJobAd} />
+        <Stack.Screen name="SearchForJobs" component={SearchForJobs} />
       </Stack.Navigator>
     </NavigationContainer>
   );
