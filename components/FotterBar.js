@@ -20,6 +20,10 @@ const FooterBar = () => {
     navigation.navigate('SearchForJobs');
   }
 
+  const handleSettings = () => {
+    navigation.navigate('SearchForJobs');
+  }
+
   return (
     <View style={styles.footer}>
       
@@ -32,7 +36,9 @@ const FooterBar = () => {
       <TouchableOpacity onPress={handleMessages}>
         <Icon name="envelope" size={30} color="white" />
       </TouchableOpacity>
-      
+      <TouchableOpacity onPress={handleSettings}>
+        <Icon name="cog" size={30} color="white" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -47,6 +53,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', // Align items horizontally
     position: 'absolute',
     bottom: 0,
+    marginTop: 18
   },
   footerText: {
     color: 'white',

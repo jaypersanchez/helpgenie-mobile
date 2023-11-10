@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: 55
+      marginTop: 55,
+      bottom: 0
     },
     mainContent: {
       flex: 1, // Takes the remaining space
@@ -51,14 +52,14 @@ const styles = StyleSheet.create({
     },
     greenButton: {
         backgroundColor: 'green', // Set the background color to green
-        width: 200, // Set the width
+        width: 100, // Set the width
         height: 50,  // Set the height
         paddingVertical: 10, // Add vertical padding
         paddingHorizontal: 10, // Add horizontal padding
         borderRadius: 5, // Optional: Add rounded corners to the button
         alignSelf: 'center', // Center the button horizontally
         marginTop: 5, // Add some top margin for spacing
-        marginTop: 200,
+        marginTop: 18,
       },
       buttonText: {
         color: 'white', // Set the text color to white for better visibility on a green background
