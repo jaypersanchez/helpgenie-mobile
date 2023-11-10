@@ -29,6 +29,10 @@ const PostJobAd = ({ navigation, onSave }) => {
     //onSave(jobAd); // Pass the jobAd data to the parent component
   };
 
+  const handleBack = () => {
+    navigation.navigate('MainApp')
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Post Job Ad</Text>
@@ -57,9 +61,15 @@ const PostJobAd = ({ navigation, onSave }) => {
         keyboardType="numeric"
       />
 
+      <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={handleSave} style={styles.greenButton}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={handleBack} style={styles.secondaryButton}>
+          <Text style={styles.buttonText}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+
     </View>
   );
 };
@@ -83,19 +93,31 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   greenButton: {
-    backgroundColor: 'green', // Set the background color to green
-    width: 200, // Set the width
-    height: 50,  // Set the height
-    paddingVertical: 10, // Add vertical padding
-    paddingHorizontal: 10, // Add horizontal padding
-    borderRadius: 5, // Optional: Add rounded corners to the button
-    alignSelf: 'center', // Center the button horizontally
-    marginTop: 5, // Add some top margin for spacing
-    marginTop: 200,
+    backgroundColor: 'green',
+    width: 200,
+    height: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    alignSelf: 'center',
+  },
+  secondaryButton: {
+    backgroundColor: 'green', // Change the background color as needed
+    width: 200,
+    height: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    alignSelf: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row', // Arrange buttons horizontally
+    justifyContent: 'space-between', // Space them apart
+    width: '100%', // Take the full width
   },
   buttonText: {
-    color: 'white', // Set the text color to white for better visibility on a green background
-    textAlign: 'center', // Center the text horizontally
+    color: 'white',
+    textAlign: 'center',
     fontSize: 18,
   },
 });

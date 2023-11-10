@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2,
     borderWidth: 2, // Increase the border width
-  borderColor: 'green', // Set the border color
+    borderColor: 'green', // Set the border color
   },
   title: {
     fontSize: 18,
