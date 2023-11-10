@@ -11,6 +11,7 @@ import PostJobAd from './components/PostJobAd';
 import SearchForJobs from './components/SearchForJobs';
 import Messages from './components/Messages';
 import Settings from './components/Settings';
+import UserProfile from './components/UserProfile';
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,7 @@ const App = () => {
         <Stack.Screen name="SearchForJobs" component={SearchForJobs} />
         <Stack.Screen name="Messages" component={Messages} />
         <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="UserProfile" component={UserProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );

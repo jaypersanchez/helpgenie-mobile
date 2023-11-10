@@ -1,7 +1,15 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const HeaderBar = () => {
+
+  const navigation = useNavigation();
+
+  const navigateToUserProfile = () => {
+    navigation.navigate('UserProfile')
+  }
+
   return (
     <View style={styles.header}>
       <Image
@@ -9,10 +17,12 @@ const HeaderBar = () => {
         style={styles.rightIcon}
       />
         <Text style={styles.headerText}>Help Genie</Text>
+        <TouchableOpacity onPress={navigateToUserProfile}>
       <Image
         source={require('../assets/code_ninja.jpeg')} // Adjust the path as needed
         style={styles.rightIcon}
       />
+      </TouchableOpacity>
     </View>
   );
 };
