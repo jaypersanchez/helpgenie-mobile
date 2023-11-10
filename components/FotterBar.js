@@ -21,7 +21,7 @@ const FooterBar = () => {
   }
 
   const handleSettings = () => {
-    navigation.navigate('SearchForJobs');
+    navigation.navigate('Settings');
   }
 
   return (
