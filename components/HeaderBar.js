@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const HeaderBar = () => {
@@ -10,12 +10,19 @@ const HeaderBar = () => {
     navigation.navigate('UserProfile')
   }
 
+  const about = () => {
+    Alert.alert(`HelpGenie`, `Beta 0.1`)
+  }
+
   return (
     <View style={styles.header}>
+
+      <TouchableOpacity onPress={about}>
       <Image
         source={require('../assets/HelpGenie_Logo3.png')} // Adjust the path as needed
         style={styles.rightIcon}
       />
+      </TouchableOpacity>
         <Text style={styles.headerText}>Help Genie</Text>
         <TouchableOpacity onPress={navigateToUserProfile}>
       <Image
