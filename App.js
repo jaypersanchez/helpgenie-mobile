@@ -7,11 +7,13 @@ import Card from './components/PostCard'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MainApp from './components/MainApp';
+import PostJobAd from './components/PostJobAd';
 
 const Stack = createStackNavigator();
 
 const App = () => {
 
+  //const [user, setUser] = useState(null)
   const [user, setUser] = useState({
     id: 1,
     username: 'exampleUser',
@@ -29,6 +31,7 @@ const App = () => {
           // Render the login/signup screen if the user is not logged in
           <Stack.Screen name="AuthScreen" component={AuthScreen} />
         )}
+        <Stack.Screen name="PostJobAd" component={PostJobAd} />
       </Stack.Navigator>
     </NavigationContainer>
   );

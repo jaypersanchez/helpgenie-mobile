@@ -1,14 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import HeaderBar from './HeaderBar';
 import FooterBar from './FotterBar';
 import AuthScreen from './AuthScreen';
 import Card from './PostCard'
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useRoute } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native'; 
 
 const MainApp = () => {
+
+    const navigation = useNavigation();
+    const route = useRoute();
+    const user = route.params?.user;
+
+    useFocusEffect(
+        useCallback(() => {
+          if (user?.email) {
+            console.log(`MainApp User State ${user.id}::${user.username}::${user.email}`)
+          }
+        }, [])
+      );
 
     // Dummy data for 5 cards
     const cards = [

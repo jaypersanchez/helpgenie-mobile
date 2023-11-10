@@ -1,11 +1,23 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 
 const FooterBar = () => {
+
+  const navigation = useNavigation();
+
+  const handlePlusSquarePress = () => {
+    navigation.navigate('PostJobAd');
+  };
+
   return (
     <View style={styles.footer}>
-      <Icon name="plus-square" size={30} color="white" />
+      
+      <TouchableOpacity onPress={handlePlusSquarePress}>
+        <Icon name="plus-square" size={30} color="white" />
+      </TouchableOpacity>
       <Icon name="search" size={30} color="white" />
       <Icon name="envelope" size={30} color="white" />
     </View>
