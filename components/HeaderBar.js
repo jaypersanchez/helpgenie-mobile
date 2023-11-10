@@ -5,7 +5,7 @@ const HeaderBar = () => {
   return (
     <View style={styles.header}>
       <Image
-        source={require('../assets/HelpGenie_Logo2.png')} // Adjust the path as needed
+        source={require('../assets/HelpGenie_Logo3.png')} // Adjust the path as needed
         style={styles.rightIcon}
       />
         <Text style={styles.headerText}>Help Genie</Text>
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between', // Updated to space-between
   },
   headerText: {
-    fontFamily: 'Comic Sans MS',
     color: 'yellow',
     fontSize: 18,
     fonthWeigth: 'bold'
