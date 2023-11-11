@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const UserProfile = ({ navigation}) => {
     
+    const [loading, setLoading] = useState(false);  
   const [email, setEmail] = useState('');
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
@@ -14,6 +15,8 @@ const UserProfile = ({ navigation}) => {
   const [country, setCountry] = useState('');
 
   const handleSave = () => {
+
+    
     // Perform any validation or processing of the input data here
     const userProfile = {
       email,
@@ -26,17 +29,21 @@ const UserProfile = ({ navigation}) => {
       country
     };
 
-    // Show a success alert
-    Alert.alert('Success', 'Profile saved successfully', [
-        {
-          text: 'OK',
-          onPress: () => {
-            // Navigate back to the MainApp component
-            navigation.navigate('MainApp');
-          },
-        },
-    ]);
-    
+    setLoading(true); // Show the spinner
+
+    // Simulate an action that takes 3 seconds
+    setTimeout(() => {
+        // Show a success alert
+        Alert.alert('Success', 'Profile saved successfully', [
+            {
+            text: 'OK',
+            onPress: () => {
+                // Navigate back to the MainApp component
+                navigation.navigate('MainApp');
+            },
+            },
+        ]);
+    })
     console.log(` Save user profile`)
     //onSave(jobAd); // Pass the jobAd data to the parent component
   };
@@ -96,7 +103,11 @@ const UserProfile = ({ navigation}) => {
           <Text style={styles.buttonText}>Go Back</Text>
         </TouchableOpacity>
       </View>
-
+      <Spinner
+        visible={loading}
+        textContent={'Loading...'}
+        textStyle={styles.spinnerText}
+      />
     </View>
   );
 };

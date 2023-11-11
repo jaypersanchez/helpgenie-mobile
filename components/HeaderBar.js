@@ -3,6 +3,14 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-na
 import { useNavigation } from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
+const CustomSpinner = () => {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      {/* You can use your custom image or any content here */}
+      <Image source={require('../assets/HelpGenie_Logo3.png')} />
+    </View>
+  );
+};
 
 const HeaderBar = () => {
 
@@ -10,9 +18,18 @@ const HeaderBar = () => {
   const [loading, setLoading] = useState(false);
 
 
-  const navigateToUserProfile = () => {
+  /*const navigateToUserProfile = () => {
     navigation.navigate('UserProfile')
-  }
+  }*/
+  const navigateToUserProfile = () => {
+    setLoading(true); // Show the spinner
+
+    // Simulate an action that takes 3 seconds
+    setTimeout(() => {
+      setLoading(false); // Hide the spinner
+      navigation.navigate('UserProfile'); // Move to the next screen
+    }, 3000);
+  };
 
   /*const about = () => {
     Alert.alert(`HelpGenie`, `Beta 0.1`)
