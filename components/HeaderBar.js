@@ -1,18 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 
 const HeaderBar = () => {
 
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
+
 
   const navigateToUserProfile = () => {
     navigation.navigate('UserProfile')
   }
 
-  const about = () => {
+  /*const about = () => {
     Alert.alert(`HelpGenie`, `Beta 0.1`)
-  }
+  }*/
+  const about = () => {
+    setLoading(true); // Show the spinner
+
+    // Simulate an action that takes 3 seconds
+    setTimeout(() => {
+      setLoading(false); // Hide the spinner
+      Alert.alert('HelpGenie', 'Beta 0.1'); // Show the alert
+    }, 3000);
+  };
+
 
   return (
     <View style={styles.header}>
@@ -30,6 +44,11 @@ const HeaderBar = () => {
         style={styles.rightIcon}
       />
       </TouchableOpacity>
+      <Spinner
+        visible={loading}
+        textContent={'Loading...'}
+        textStyle={styles.spinnerText}
+      />
     </View>
   );
 };
