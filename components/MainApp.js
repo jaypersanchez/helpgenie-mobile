@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import HeaderBar from './HeaderBar';
 import FooterBar from './FotterBar';
-import AuthScreen from './AuthScreen';
 import Card from './PostCard'
 import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,8 +11,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native'; 
 
 const MainApp = () => {
-
-    const navigation = useNavigation();
+    
+  const navigation = useNavigation();
     const route = useRoute();
     const user = route.params?.user;
 

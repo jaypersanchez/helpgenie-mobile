@@ -17,13 +17,13 @@ const Stack = createStackNavigator();
 
 const App = () => {
 
-  //const [user, setUser] = useState(null)
-  const [user, setUser] = useState({
+  const [user, setUser] = useState(null)
+  /*const [user, setUser] = useState({
     id: 1,
     username: 'exampleUser',
     email: 'user@example.com',
     // Other user data you want to include
-  });
+  });*/
   
   return (
     <NavigationContainer>
@@ -40,6 +40,8 @@ const App = () => {
         <Stack.Screen name="Messages" component={Messages} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="UserProfile" component={UserProfile} />
+        <Stack.Screen name="MainApp" component={MainApp} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

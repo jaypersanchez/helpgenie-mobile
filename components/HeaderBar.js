@@ -7,7 +7,7 @@ const CustomSpinner = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       {/* You can use your custom image or any content here */}
-      <Image source={require('../assets/HelpGenie_Logo3.png')} />
+      <Image source={require('../assets/blue_collar_worker_logo1.png')} />
     </View>
   );
 };
