@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
   headerText: {
     color: 'yellow',
     fontSize: 18,
-    fonthWeigth: 'bold'
   },
   icon: {
     width: 40,

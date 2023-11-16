@@ -16,20 +16,38 @@ const AuthScreen = ({ navigation }) => {
     // Other user data you want to include
   });
   
-const handleLogin = () => {
+const handleLogin = async () => {
       console.log(`Login ${email}::${password}`)
-      // Validate inputs
+        // Validate inputs
       const validationStatus = validateInputs();
       
       // Check if validation failed
       if (validationStatus === 'failed') {
         // Stop the rest of the code from running
-        return;
+        throw new Error(`Invalid inputs`);
       }
-    // Implement your login logic here
-    // For simplicity, let's assume the user is logged in after clicking the login button
-    //navigation.replace('MainApp'); // Navigate to the main app screen
-    navigation.navigate('MainApp')
+
+      const response = await fetch('http://127.0.0.1:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+  
+      
+      const data = await response.json();
+      //if (data.message === 'true') {
+        console.log(`${data.message}::${data.token}`)
+        // Registration was successful, navigate to MainApp
+        navigation.navigate('MainApp');
+      //} else {
+        // Registration failed, display an alert with the error message
+        //Alert.alert('Login Failed', JSON.stringify(data));
+     // }
   };
 
   const handleRegister = async () => {
