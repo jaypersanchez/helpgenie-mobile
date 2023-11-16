@@ -17,7 +17,7 @@ const AuthScreen = ({ navigation }) => {
   });
   
 const handleLogin = async () => {
-      console.log(`Login ${email}::${password}`)
+      
         // Validate inputs
       const validationStatus = validateInputs();
       
@@ -41,7 +41,7 @@ const handleLogin = async () => {
       
       const data = await response.json();
       //if (data.message === 'true') {
-        console.log(`${data.message}::${data.token}`)
+        console.log(`Login ${JSON.stringify(data)}`)
         // Registration was successful, navigate to MainApp
         navigation.navigate('MainApp');
       //} else {
@@ -77,6 +77,7 @@ const handleLogin = async () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
+      console.log(`Register Data ${data}`)
       if (data.message === 'success') {
         // Registration was successful, navigate to MainApp
         navigation.navigate('MainApp');
