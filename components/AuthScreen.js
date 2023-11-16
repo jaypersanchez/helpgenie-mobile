@@ -41,9 +41,9 @@ const handleLogin = async () => {
       
       const data = await response.json();
       //if (data.message === 'true') {
-        console.log(`Login ${JSON.stringify(data)}`)
+        //console.log(`Login ${JSON.stringify(data)}`)
         // Registration was successful, navigate to MainApp
-        navigation.navigate('MainApp');
+        navigation.navigate('MainApp', {user:data});
       //} else {
         // Registration failed, display an alert with the error message
         //Alert.alert('Login Failed', JSON.stringify(data));
@@ -52,7 +52,7 @@ const handleLogin = async () => {
 
   const handleRegister = async () => {
     try {
-      console.log(`Registering ${email}::${password}`)
+      //console.log(`Registering ${email}::${password}`)
       // Validate inputs
       const validationStatus = validateInputs();
       
@@ -77,17 +77,17 @@ const handleLogin = async () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      console.log(`Register Data ${data}`)
+      //console.log(`Register Data ${data}`)
       if (data.message === 'success') {
         // Registration was successful, navigate to MainApp
-        navigation.navigate('MainApp');
+        navigation.navigate('MainApp', {user: data});
       } else {
         // Registration failed, display an alert with the error message
         Alert.alert('Registration Failed', data.error);
       }
   
       // Handle the response data or perform any necessary actions
-      console.log('Registration response:', data);
+      //console.log('Registration response:', data);
   
       
     } catch (error) {

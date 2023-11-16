@@ -12,12 +12,12 @@ const CustomSpinner = () => {
   );
 };
 
-const HeaderBar = () => {
+const HeaderBar = ({user}) => {
 
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
-
-
+  
+  console.log(`HeaderBar ${user.email}::${user.id}`)
   /*const navigateToUserProfile = () => {
     navigation.navigate('UserProfile')
   }*/
@@ -27,7 +27,7 @@ const HeaderBar = () => {
     // Simulate an action that takes 3 seconds
     setTimeout(() => {
       setLoading(false); // Hide the spinner
-      navigation.navigate('UserProfile'); // Move to the next screen
+      navigation.navigate('UserProfile', {user}); // Move to the next screen
     }, 3000);
   };
 

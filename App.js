@@ -12,6 +12,7 @@ import SearchForJobs from './components/SearchForJobs';
 import Messages from './components/Messages';
 import Settings from './components/Settings';
 import UserProfile from './components/UserProfile';
+const UserContext = React.createContext();
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ const App = () => {
   });*/
   
   return (
+    <UserContext.Provider value={{ user, setUser }}>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
@@ -44,6 +46,7 @@ const App = () => {
         
       </Stack.Navigator>
     </NavigationContainer>
+    </UserContext.Provider>
   );
 }
 

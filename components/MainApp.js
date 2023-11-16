@@ -9,17 +9,22 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useRoute } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native'; 
+const UserContext = React.createContext();
 
-const MainApp = () => {
+const MainApp = ({route}) => {
+
     
   const navigation = useNavigation();
-    const route = useRoute();
-    const user = route.params?.user;
+    //const route = useRoute();
+    const { user } = route.params;
+    //const { UserContext } = useContext(UserContext);
+
+    //console.log(`MainApp User State ${user.id}::${user.email}::${user.id}::${user.token}`)
 
     useFocusEffect(
         useCallback(() => {
           if (user?.email) {
-            console.log(`MainApp User State ${user.id}::${user.username}::${user.email}`)
+            console.log(`MainApp User State ${user.id}::${user.email}::${user.id}::${user.token}`)
           }
         }, [])
       );
@@ -40,7 +45,7 @@ const MainApp = () => {
   
     return (
       <View style={{ flex: 1 }}>
-        <HeaderBar />
+        <HeaderBar user={user}/>
         <ScrollView style={{ flex: 1 }}>
           {/* Render each card */}
           {cards.map((card) => (

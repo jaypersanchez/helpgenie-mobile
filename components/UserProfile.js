@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-const UserProfile = ({ navigation}) => {
+const UserProfile = ({ navigation, route }) => {
     
-    const [loading, setLoading] = useState(false);  
+  const { user } = route.params;
+  const [loading, setLoading] = useState(false);  
   const [email, setEmail] = useState('');
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
@@ -15,8 +16,6 @@ const UserProfile = ({ navigation}) => {
   const [country, setCountry] = useState('');
 
   const handleSave = () => {
-
-    
     // Perform any validation or processing of the input data here
     const userProfile = {
       email,
@@ -39,7 +38,7 @@ const UserProfile = ({ navigation}) => {
             text: 'OK',
             onPress: () => {
                 // Navigate back to the MainApp component
-                navigation.navigate('MainApp');
+                navigation.navigate('MainApp', {user});
             },
             },
         ]);
@@ -49,7 +48,7 @@ const UserProfile = ({ navigation}) => {
   };
 
   const handleBack = () => {
-    navigation.navigate('MainApp')
+    navigation.navigate('MainApp', {user})
   }
 
   return (
