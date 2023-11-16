@@ -17,7 +17,7 @@ const AuthScreen = ({ navigation }) => {
   });
   
 const handleLogin = async () => {
-      
+      console.log(`login`)
         // Validate inputs
       const validationStatus = validateInputs();
       
@@ -40,6 +40,7 @@ const handleLogin = async () => {
   
       
       const data = await response.json();
+      console.log(`data ${data}`)
       //if (data.message === 'true') {
         //console.log(`Login ${JSON.stringify(data)}`)
         // Registration was successful, navigate to MainApp
@@ -98,6 +99,7 @@ const handleLogin = async () => {
 
   const validateInputs = async () => {
     // Validate email
+    console.log(`validate input`)
     if (!email || !password) {
       Alert.alert('Email and password are required');
       return "failed"

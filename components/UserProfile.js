@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -15,41 +15,75 @@ const UserProfile = ({ navigation, route }) => {
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
 
+
+  const retrieveProfileData = async () => {
+    try {
+      const response = await fetch(`http://127.0.0.1:3000/get-profile?email=${user.email}`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+  
+      // Assuming the response contains the expected data structure
+      setEmail(data.email);
+      setFirstName(data.firstName);
+      setLastName(data.lastName);
+      setMobile(data.mobile);
+    } catch (error) {
+      console.error('Error fetching profile data:', error.message);
+      // Handle the error as needed
+    }
+  }
+
   const handleSave = () => {
-    // Perform any validation or processing of the input data here
     const userProfile = {
       email,
-      firstname,
-      lastname,
+      firstName: firstname,
+      lastName: lastname,
       mobile,
-      password,
-      city,
-      state,
-      country
     };
-
-    setLoading(true); // Show the spinner
-
-    // Simulate an action that takes 3 seconds
-    setTimeout(() => {
+  
+    setLoading(true);
+  
+    fetch('http://localhost:3000/update-profile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userProfile),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setLoading(false);
+  
         // Show a success alert
         Alert.alert('Success', 'Profile saved successfully', [
-            {
+          {
             text: 'OK',
             onPress: () => {
-                // Navigate back to the MainApp component
-                navigation.navigate('MainApp', {user});
+              // Perform any additional actions after successful save
+              navigation.navigate('MainApp', { user: data.user });
             },
-            },
+          },
         ]);
-    })
-    console.log(` Save user profile`)
-    //onSave(jobAd); // Pass the jobAd data to the parent component
+      })
+      .catch((error) => {
+        setLoading(false);
+  
+        console.error('Error saving profile:', error);
+        Alert.alert('Error', 'Failed to save profile. Please try again.');
+      });
   };
 
   const handleBack = () => {
     navigation.navigate('MainApp', {user})
   }
+
+  useEffect(() => {
+    retrieveProfileData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -59,6 +93,7 @@ const UserProfile = ({ navigation, route }) => {
         placeholder="Enter email"
         value={email}
         onChangeText={setEmail}
+        editable={false}
       />
 
       <Text style={styles.label}>First Name:</Text>
@@ -92,6 +127,7 @@ const UserProfile = ({ navigation, route }) => {
         placeholder="Enter Password"
         value={password}
         onChangeText={setPassword}
+        editable={false}
       />
 
       <View style={styles.buttonContainer}>
