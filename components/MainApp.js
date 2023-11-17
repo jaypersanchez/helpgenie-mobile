@@ -29,10 +29,34 @@ const MainApp = ({route}) => {
 
   useFocusEffect(
     useCallback(() => {
-      // Refetch job ads when the screen comes into focus
-      getJobAds();
+      getJobAds()
     }, [])
-  );
+);
+  useEffect(() => {
+    // Refetch job ads when the screen comes into focus
+    getJobAds();
+  
+    // Listen for changes in navigation parameters
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      // Access the search results from the navigation parameters
+      const searchResults = e.data?.params?.searchResults;
+  
+      if (searchResults && setJobAds) {
+        // Update the jobAds state with the search results
+        console.log(`refreshing search result list`);
+        setJobAds(searchResults);
+      }
+    });
+  
+    // Clean up the listener when the component unmounts
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [navigation, setJobAds]);
+  
+
   const getJobAds = async () => {
     try {
       const response = await fetch('http://localhost:3000/get-postads');

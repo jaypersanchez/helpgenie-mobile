@@ -28,7 +28,13 @@ const SearchForJobs = ( {route} ) => {
       const data = await response.json();
       
       // Process the data returned from the server
-      // You can update your state or perform any other actions here
+      // Assuming data is an array of job ads
+      const transformedData = data.map(jobAd => ({
+        id: jobAd._id,
+        title: jobAd.title,
+        description: jobAd.description,
+        budget: jobAd.budget,
+      }));
       
       // Show a success alert
       Alert.alert('Success', 'Searching for Jobs Done!', [
@@ -36,7 +42,13 @@ const SearchForJobs = ( {route} ) => {
           text: 'OK',
           onPress: () => {
             // Navigate back
-            navigation.goBack();
+            navigation.goBack({
+              screen: 'MainApp',
+              params: {
+                searchResults: transformedData,
+                user: route.params.user,  // Include the user parameter
+              }
+            });
           },
         },
       ]);
