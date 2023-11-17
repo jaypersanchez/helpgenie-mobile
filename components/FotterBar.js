@@ -4,12 +4,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 
-const FooterBar = () => {
-
+const FooterBar = ({ user }) => {
+  
   const navigation = useNavigation();
+  console.log(`FooterBar ${user.email}::${user.id}`)
 
-  const handlePlusSquarePress = () => {
-    navigation.navigate('PostJobAd');
+  const handlePlusSquarePress = async () => {
+    navigation.navigate('PostJobAd', {user});
   };
 
   const handleMessages = () => {

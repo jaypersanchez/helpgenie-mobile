@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const PostJobAd = ({ navigation, onSave }) => {
+const PostJobAd = ({ route }) => {
+
+  const user = route.params;
+  const navigation = useNavigation();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [budget, setBudget] = useState('');
 
+  console.log(`PostJobAd ${user.email}::${user.id}`)
+  
+  useEffect(() => {
+    console.log("Received User in PostJobAd:", route.params?.user);
+  }, []);
+
   const handleSave = () => {
+    
     // Perform any validation or processing of the input data here
     const jobAd = {
       title,
@@ -20,7 +31,8 @@ const PostJobAd = ({ navigation, onSave }) => {
           text: 'OK',
           onPress: () => {
             // Navigate back to the MainApp component
-            navigation.navigate('MainApp');
+            //navigation.navigate('MainApp', {user});
+            navigation.goBack()
           },
         },
     ]);
@@ -30,7 +42,8 @@ const PostJobAd = ({ navigation, onSave }) => {
   };
 
   const handleBack = () => {
-    navigation.navigate('MainApp')
+    //navigation.navigate('MainApp', {user})
+    navigation.goBack()
   }
 
   return (

@@ -28,6 +28,7 @@ const HeaderBar = ({user}) => {
     setTimeout(() => {
       setLoading(false); // Hide the spinner
       navigation.navigate('UserProfile', {user}); // Move to the next screen
+      setLoading(false);
     }, 3000);
   };
 

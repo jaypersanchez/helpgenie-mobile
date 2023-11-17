@@ -174,13 +174,7 @@ const UserProfile = ({ navigation, route }) => {
         textContent={'Loading...'}
         textStyle={styles.spinnerText}
       />
-      <View>
-        {/* Display current user information and image */}
-        <Image source={{ uri: userImage }} style={{ width: 100, height: 100 }} />
-        
-        {/* Button to pick an image */}
-        <Button title="Change Profile Image" onPress={pickImage} disabled='true'/>
-      </View>
+      
     </View>
   );
 };

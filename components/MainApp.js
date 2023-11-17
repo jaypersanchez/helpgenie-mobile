@@ -49,10 +49,10 @@ const MainApp = ({route}) => {
         <ScrollView style={{ flex: 1 }}>
           {/* Render each card */}
           {cards.map((card) => (
-            <Card key={card.id} title={card.title} content={card.content} estimatedBudget={card.estimatedBudget} />
+            <Card key={card.id} title={card.title} content={card.content} estimatedBudget={card.estimatedBudget} user={ user }/>
           ))}
         </ScrollView>
-        <FooterBar />
+        <FooterBar user={user} />
         <StatusBar style="auto" />
       </View>
     );
