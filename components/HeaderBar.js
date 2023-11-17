@@ -51,7 +51,7 @@ const HeaderBar = ({user}) => {
 
       <TouchableOpacity onPress={about}>
       <Image
-        source={require('../assets/HelpGenie_Logo3.png')} // Adjust the path as needed
+        source={require('../assets/blue_collar_worker_logo1.png')} // Adjust the path as needed
         style={styles.rightIcon}
       />
       </TouchableOpacity>

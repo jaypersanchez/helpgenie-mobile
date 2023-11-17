@@ -15,19 +15,46 @@ const MainApp = ({route}) => {
 
     
   const navigation = useNavigation();
-    //const route = useRoute();
-    const { user } = route.params;
-    //const { UserContext } = useContext(UserContext);
+    
+  const { user } = route.params;
+  const [jobAds, setJobAds] = useState([]);
 
-    //console.log(`MainApp User State ${user.id}::${user.email}::${user.id}::${user.token}`)
-
-    useFocusEffect(
+  useFocusEffect(
         useCallback(() => {
           if (user?.email) {
             console.log(`MainApp User State ${user.id}::${user.email}::${user.id}::${user.token}`)
           }
         }, [])
-      );
+  );
+
+  useEffect(() => {
+    // Fetch job ads when the component mounts
+    getJobAds();
+  }, []);
+
+  const getJobAds = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/get-postads');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      // Assuming data is an array of job ads
+      const transformedData = data.map(jobAd => ({
+        id: jobAd._id,
+        title: jobAd.title,
+        description: jobAd.description,
+        budget: jobAd.budget,
+      }));
+      
+      setJobAds(transformedData); // Assuming setJobAds is a state update function
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle the error, e.g., show an alert to the user
+    }
+  };
 
     // Dummy data for 5 cards
     const cards = [
@@ -47,9 +74,14 @@ const MainApp = ({route}) => {
       <View style={{ flex: 1 }}>
         <HeaderBar user={user}/>
         <ScrollView style={{ flex: 1 }}>
-          {/* Render each card */}
-          {cards.map((card) => (
-            <Card key={card.id} title={card.title} content={card.content} estimatedBudget={card.estimatedBudget} user={ user }/>
+          {/* Render each card dynamically */}
+          {jobAds.map((jobAd) => (
+            <Card
+              key={jobAd._id}
+              title={jobAd.jobTitle || jobAd.title || 'Default Title'}
+              content={jobAd.jobDescription || jobAd.description || 'Default Description'}
+              estimatedBudget={jobAd.budgetEstimate || jobAd.budget || 'Default Budget'}
+            />
           ))}
         </ScrollView>
         <FooterBar user={user} />
