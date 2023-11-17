@@ -76,14 +76,18 @@ const MainApp = ({route}) => {
         <HeaderBar user={user}/>
         <ScrollView style={{ flex: 1 }}>
           {/* Render each card dynamically */}
-          {jobAds.map((jobAd) => (
-            <Card
-              key={jobAd._id}
-              title={jobAd.jobTitle || jobAd.title || 'Default Title'}
-              content={jobAd.jobDescription || jobAd.description || 'Default Description'}
-              estimatedBudget={jobAd.budgetEstimate || jobAd.budget || 'Default Budget'}
-            />
-          ))}
+          {jobAds.length > 0 ? (
+            jobAds.map((jobAd) => (
+              <Card
+                key={jobAd.id}
+                title={jobAd.jobTitle || jobAd.title || 'Default Title'}
+                content={jobAd.jobDescription || jobAd.description || 'Default Description'}
+                estimatedBudget={jobAd.budgetEstimate || jobAd.budget || 'Default Budget'}
+              />
+            ))
+          ) : (
+            <Text>Loading...</Text>
+          )}
         </ScrollView>
         <FooterBar user={user} />
         <StatusBar style="auto" />
