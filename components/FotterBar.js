@@ -14,11 +14,11 @@ const FooterBar = ({ user }) => {
   };
 
   const handleMessages = () => {
-    navigation.navigate('Messages');
+    navigation.navigate('Messages', {user});
   }
 
   const handleSearch = () => {
-    navigation.navigate('SearchForJobs');
+    navigation.navigate('SearchForJobs',{user});
   }
 
   const handleSettings = () => {
