@@ -27,11 +27,12 @@ const MainApp = ({route}) => {
         }, [])
   );
 
-  useEffect(() => {
-    // Fetch job ads when the component mounts
-    getJobAds();
-  }, []);
-
+  useFocusEffect(
+    useCallback(() => {
+      // Refetch job ads when the screen comes into focus
+      getJobAds();
+    }, [])
+  );
   const getJobAds = async () => {
     try {
       const response = await fetch('http://localhost:3000/get-postads');
