@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert,  Modal, TouchableHighlight, TextInput } from 'react-native';
 
-const PostCard = ({ title, content, estimatedBudget }) => {
+const PostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
 
     const [showMoreInfo, setShowMoreInfo] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
@@ -17,11 +17,34 @@ const PostCard = ({ title, content, estimatedBudget }) => {
       setModalVisible(true);
     };
   
-    const handleBidSubmit = () => {
-      // Implement logic to handle bid submission
-      const adjustedBid = bidAmount.trim() !== '' ? parseFloat(bidAmount) : estimatedBudget;
-      Alert.alert('Bid Placed', `Your bid of ${adjustedBid} has been submitted successfully.`);
-      setModalVisible(false);
+    const handleBidSubmit = async () => {
+      try {
+        // Assume you have jobId, bidderId, and bidAmount available
+        const bidData = {
+          jobId: jobid,
+          bidderId: userid,
+          bidAmount: bidAmount,
+        };
+    
+        const response = await fetch('http://localhost:3000/bid', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(bidData),
+        });
+    
+        if (!response.ok) {
+          throw new Error(`Bid submission failed with status: ${response.status}`);
+        }
+    
+        Alert.alert('Bid Placed', `Your bid of ${bidData.bidAmount} has been submitted successfully.`);
+        setModalVisible(false);
+      } catch (error) {
+        console.error('Error submitting bid:', error);
+        // Handle the error as needed
+        Alert.alert('Error', 'Failed to submit bid. Please try again later.');
+      }
     };
 
   return (

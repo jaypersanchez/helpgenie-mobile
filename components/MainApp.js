@@ -107,6 +107,8 @@ const MainApp = ({route}) => {
             jobAds.map((jobAd) => (
               <Card
                 key={jobAd.id}
+                userid={user.userid}
+                jobid={jobAd.id}
                 title={jobAd.jobTitle || jobAd.title || 'Default Title'}
                 content={jobAd.jobDescription || jobAd.description || 'Default Description'}
                 estimatedBudget={jobAd.budgetEstimate || jobAd.budget || 'Default Budget'}
