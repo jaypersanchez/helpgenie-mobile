@@ -91,7 +91,7 @@ const PostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
                 style={styles.input}
                 placeholder="Enter your bid amount"
                 keyboardType="numeric"
-                value={estimatedBudget}
+                value={String(estimatedBudget)}
                 onChangeText={(text) => setBidAmount(text)}
               />
               <TouchableHighlight

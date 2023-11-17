@@ -62,7 +62,13 @@ const MainApp = ({route}) => {
 
   const getJobAds = async () => {
     try {
-      const response = await fetch('http://localhost:3000/get-postads');
+      const response = await fetch('http://localhost:3000/get-postads', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userid: user.userId }),
+    });
       
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -85,7 +91,7 @@ const MainApp = ({route}) => {
   };
 
     // Dummy data for 5 cards
-    const cards = [
+    /*const cards = [
       { id: 1, title: 'Septic Tank Siphoning', content: 'Need to clean my septic tank', estimatedBudget: "P500" },
       { id: 2, title: 'Engineer and Architect', content: 'Looking for an Engineer and Architect to help build our house', estimatedBudget: "P500" },
       { id: 3, title: 'Underground water suppy', content: 'Need to have deep well water source for drinking', estimatedBudget: "P500" },
@@ -96,7 +102,7 @@ const MainApp = ({route}) => {
       { id: 8, title: 'Septic Tank Siphoning', content: 'Need to clean my septic tank', estimatedBudget: "P500" },
       { id: 9, title: 'Auto mechanic', content: 'Kailangan po namin local auto mechanic para sa owner po namin', estimatedBudget: "P500" },
       { id: 10, title: 'Full time security guard', content: 'Naghahanap ng night time security guard', estimatedBudget: "P500" },
-    ];
+    ];*/
   
     return (
       <View style={{ flex: 1 }}>
