@@ -13,12 +13,12 @@ const FooterBar = ({ user }) => {
     navigation.navigate('PostJobAd', {user});
   };
 
-  const handleMessages = () => {
-    navigation.navigate('Messages', {user});
-  }
-
   const handleSearch = () => {
     navigation.navigate('SearchForJobs',{user});
+  }
+
+  const handleMessages = () => {
+    navigation.navigate('Messages', {user});
   }
 
   const handleSettings = () => {

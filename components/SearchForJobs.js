@@ -1,21 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-//import SearchForJobs from './SearchForJobs'; // Import the SearchForJobs component
+import { useNavigation } from '@react-navigation/native';
 
-const SearchForJobs = ( {navigation} ) => {
 
-    const [searchString, setSearchString] = useState()
+const SearchForJobs = ( {route} ) => {
 
-  const handleSearch = () => {
-    // Implement your search logic here
-    console.log(`Searching for jobs with keyword: ${searchString}`);
-    // You can update your state or perform any other actions here
-    //navigation.navigate('MainApp');
-    Alert.alert('Success', 'Searching for Jobs Done!')
+  const user = route.params;
+  const navigation = useNavigation();
+  const [searchString, setSearchString] = useState()
+  useEffect(() => {
+    console.log("Received User in SearchForJobs:", route.params?.user);
+  }, []);
+
+  const handleSearch = async () => {
+    try {
+      console.log(`Searching for jobs with keyword: ${searchString}`);
+      
+      // Make a request to the search endpoint
+      const response = await fetch(`http://localhost:3000/search-ads?search=${encodeURIComponent(searchString)}`);
+      
+      // Check if the request was successful
+      if (!response.ok) {
+        throw new Error(`Search failed with status: ${response.status}`);
+      }
+      
+      // Parse the response data
+      const data = await response.json();
+      
+      // Process the data returned from the server
+      // You can update your state or perform any other actions here
+      
+      // Show a success alert
+      Alert.alert('Success', 'Searching for Jobs Done!', [
+        {
+          text: 'OK',
+          onPress: () => {
+            // Navigate back
+            navigation.goBack();
+          },
+        },
+      ]);
+    } catch (error) {
+      console.error('Search error:', error);
+      // Handle errors and show appropriate alerts or update state
+      // For example, Alert.alert('Error', 'Search failed. Please try again.');
+    }
   };
 
   const handleBack = () => {
-    navigation.navigate('MainApp')
+    navigation.goBack()
   }
 
   return (
