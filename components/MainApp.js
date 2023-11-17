@@ -34,13 +34,16 @@ const MainApp = ({route}) => {
 );
   useEffect(() => {
     // Refetch job ads when the screen comes into focus
-    getJobAds();
+    //getJobAds();
   
     // Listen for changes in navigation parameters
     const unsubscribe = navigation.addListener('beforeRemove', (e) => {
       // Access the search results from the navigation parameters
       const searchResults = e.data?.params?.searchResults;
-  
+      // Get the number of items in transformedData
+      const numberOfItems = searchResults.length;
+      console.log(`Found ${numberOfItems} matching jobs`)
+      
       if (searchResults && setJobAds) {
         // Update the jobAds state with the search results
         console.log(`refreshing search result list`);
@@ -54,7 +57,7 @@ const MainApp = ({route}) => {
         unsubscribe();
       }
     };
-  }, [navigation, setJobAds]);
+  }, [navigation]);
   
 
   const getJobAds = async () => {

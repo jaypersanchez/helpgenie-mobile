@@ -41,7 +41,7 @@ const HeaderBar = ({user}) => {
     // Simulate an action that takes 3 seconds
     setTimeout(() => {
       setLoading(false); // Hide the spinner
-      Alert.alert('HelpGenie', 'Beta 0.1'); // Show the alert
+      Alert.alert('Help Juan', 'Beta 0.1'); // Show the alert
     }, 3000);
   };
 

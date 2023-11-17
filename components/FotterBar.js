@@ -25,6 +25,32 @@ const FooterBar = ({ user }) => {
     navigation.navigate('Settings');
   }
 
+  /*
+  Icon names that you can use:
+
+"home"
+"user"
+"heart"
+"search"
+"gear" or "cog"
+"camera"
+"comments"
+"bell"
+"bookmark"
+"paper-plane" or "send"
+"map"
+"music"
+"film" or "video-camera"
+"gift"
+"sun" or "moon" (for light/dark mode)
+"star"
+"check"
+"times" or "close"
+"arrow-up"
+"arrow-down"
+"arrow-left"
+"arrow-right"
+  */
   return (
     <View style={styles.footer}>
       

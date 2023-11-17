@@ -6,6 +6,7 @@ const PostJobAd = ({ route }) => {
 
   const user = route.params;
   const navigation = useNavigation();
+  const [userid, setUserId] = useState('')
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [budget, setBudget] = useState('');
@@ -17,6 +18,7 @@ const PostJobAd = ({ route }) => {
   const handleSave = async () => {
     // Perform any validation or processing of the input data here
     const jobAd = {
+      userid,
       title,
       description,
       budget: parseFloat(budget) || 0, // Convert budget to a number or set to 0 if it's not a valid number

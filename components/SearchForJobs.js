@@ -1,6 +1,8 @@
 import React, { useState,useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView,
+        Modal, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import PostCard from './PostCard';
 
 
 const SearchForJobs = ( {route} ) => {
@@ -8,6 +10,8 @@ const SearchForJobs = ( {route} ) => {
   const user = route.params;
   const navigation = useNavigation();
   const [searchString, setSearchString] = useState()
+  const [searchResults, setSearchResults] = useState([]);
+
   useEffect(() => {
     console.log("Received User in SearchForJobs:", route.params?.user);
   }, []);
@@ -26,21 +30,24 @@ const SearchForJobs = ( {route} ) => {
       
       // Parse the response data
       const data = await response.json();
+      // Process the data returned from the server
+      setSearchResults(data);
       
       // Process the data returned from the server
       // Assuming data is an array of job ads
-      const transformedData = data.map(jobAd => ({
+      /*const transformedData = data.map(jobAd => ({
         id: jobAd._id,
         title: jobAd.title,
         description: jobAd.description,
         budget: jobAd.budget,
-      }));
-      
+      }));*/
+       // Get the number of items in transformedData
+       const numberOfItems = data.length;
       // Show a success alert
-      Alert.alert('Success', 'Searching for Jobs Done!', [
+      Alert.alert('Success', `Found ${numberOfItems} Matching Jobs`, [
         {
           text: 'OK',
-          onPress: () => {
+          /*onPress: () => {
             // Navigate back
             navigation.goBack({
               screen: 'MainApp',
@@ -49,7 +56,7 @@ const SearchForJobs = ( {route} ) => {
                 user: route.params.user,  // Include the user parameter
               }
             });
-          },
+          },*/
         },
       ]);
     } catch (error) {
@@ -82,6 +89,20 @@ const SearchForJobs = ( {route} ) => {
         </TouchableOpacity>
       </View>
 
+        {/* Display search results below the buttons */}
+        {searchResults.length > 0 && (
+          <ScrollView style={{marginTop: 50}}>
+            {searchResults.map((result) => (
+              <PostCard
+              key={result._id}
+              title={result.jobTitle || result.title || 'Default Title'}
+              content={result.jobDescription || result.description || 'Default Description'}
+              estimatedBudget={result.budgetEstimate || result.budget || 'Default Budget'}
+            />
+            ))}
+          </ScrollView>
+        )}
+
     </View>
   );
 };
@@ -91,6 +112,7 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      marginTop: 50
     },
     label: {
       fontSize: 16,
