@@ -4,7 +4,7 @@
     "slug": "helpgenie-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/HelpGenie_Logo2.png",
+    "icon": "./assets/blue_collar_worker_logo1.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",

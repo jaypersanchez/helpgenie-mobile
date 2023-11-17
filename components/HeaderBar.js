@@ -17,7 +17,7 @@ const HeaderBar = ({user}) => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   
-  console.log(`HeaderBar ${user.email}::${user.id}`)
+  console.log(`HeaderBar ${user.email}::${user.userid}`)
   /*const navigateToUserProfile = () => {
     navigation.navigate('UserProfile')
   }*/
@@ -28,6 +28,7 @@ const HeaderBar = ({user}) => {
     setTimeout(() => {
       setLoading(false); // Hide the spinner
       navigation.navigate('UserProfile', {user}); // Move to the next screen
+      setLoading(false);
     }, 3000);
   };
 
@@ -40,7 +41,7 @@ const HeaderBar = ({user}) => {
     // Simulate an action that takes 3 seconds
     setTimeout(() => {
       setLoading(false); // Hide the spinner
-      Alert.alert('HelpGenie', 'Beta 0.1'); // Show the alert
+      Alert.alert('Help Juan', 'Beta 0.1'); // Show the alert
     }, 3000);
   };
 
@@ -50,7 +51,7 @@ const HeaderBar = ({user}) => {
 
       <TouchableOpacity onPress={about}>
       <Image
-        source={require('../assets/HelpGenie_Logo3.png')} // Adjust the path as needed
+        source={require('../assets/blue_collar_worker_logo1.png')} // Adjust the path as needed
         style={styles.rightIcon}
       />
       </TouchableOpacity>

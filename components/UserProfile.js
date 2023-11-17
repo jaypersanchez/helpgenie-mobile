@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import ImagePicker from 'react-native-image-picker';
 
 const UserProfile = ({ navigation, route }) => {
     
   const { user } = route.params;
+  const [userImage, setUserImage] = useState(null);
   const [loading, setLoading] = useState(false);  
   const [email, setEmail] = useState('');
   const [firstname, setFirstName] = useState('');
@@ -15,7 +17,36 @@ const UserProfile = ({ navigation, route }) => {
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
 
+  const pickImage = () => {
+    ImagePicker.showImagePicker(options, (response) => {
+      if (!response.didCancel && !response.error) {
+        setUserImage(response.uri);
+      }
+    });
+  };
 
+  const updateUserImage = async (imageUri) => {
+    try {
+      const response = await fetch('http://your-api-endpoint/update-profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: 'usera@g.com', // Replace with the actual email or ID
+          image: imageUri,
+          // ... other fields you want to update
+        }),
+      });
+  
+      const data = await response.json();
+      console.log(data); // Handle the response from the server
+  
+    } catch (error) {
+      console.error('Error updating image:', error);
+    }
+  };
+  
   const retrieveProfileData = async () => {
     try {
       const response = await fetch(`http://127.0.0.1:3000/get-profile?email=${user.email}`);
@@ -143,6 +174,7 @@ const UserProfile = ({ navigation, route }) => {
         textContent={'Loading...'}
         textStyle={styles.spinnerText}
       />
+      
     </View>
   );
 };

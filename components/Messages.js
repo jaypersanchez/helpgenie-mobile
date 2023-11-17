@@ -3,7 +3,10 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView 
 import MessagesCard from './MessagesCard';
 import { useNavigation } from '@react-navigation/native';
 
-const Messages = ( {navigation} ) => {
+const Messages = ( {route} ) => {
+
+    const user = route.params;
+    const navigation = useNavigation();
 
     // Dummy data for 5 cards
     const cards = [
@@ -28,7 +31,7 @@ const Messages = ( {navigation} ) => {
               <MessagesCard key={card.id} title={card.title} content={card.content} />
             ))}
           </ScrollView>
-          <TouchableOpacity onPress={() => navigation.navigate('MainApp')} style={styles.greenButton}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.greenButton}>
             <Text style={styles.buttonText}>Go Back</Text>
         </TouchableOpacity>
         </View>

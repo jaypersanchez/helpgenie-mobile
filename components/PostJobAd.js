@@ -1,36 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const PostJobAd = ({ navigation, onSave }) => {
+const PostJobAd = ({ route }) => {
+
+  const user = route.params?.user;
+  const navigation = useNavigation();
+  const [userid, setUserId] = useState(user.userid)
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [budget, setBudget] = useState('');
 
-  const handleSave = () => {
+  useEffect(() => {
+    console.log("Received User in PostJobAd:", userid);
+  }, []);
+
+  const handleSave = async () => {
     // Perform any validation or processing of the input data here
     const jobAd = {
+      userid,
       title,
       description,
       budget: parseFloat(budget) || 0, // Convert budget to a number or set to 0 if it's not a valid number
     };
-
-    // Show a success alert
-    Alert.alert('Success', 'Job Ad saved successfully', [
-        {
-          text: 'OK',
-          onPress: () => {
-            // Navigate back to the MainApp component
-            navigation.navigate('MainApp');
-          },
+  
+    try {
+      // Make a POST request to save the job ad
+      const response = await fetch('http://localhost:3000/post-postads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-    ]);
-    
-    console.log(`Save Job Ad Post`)
-    //onSave(jobAd); // Pass the jobAd data to the parent component
+        body: JSON.stringify(jobAd),
+      });
+  
+      const data = await response.json();
+  
+      if (data.message === 'success') {
+        // Show a success alert
+        Alert.alert('Success', 'Job Ad saved successfully', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // Navigate back to the MainApp component
+              // navigation.navigate('MainApp', { user });
+              navigation.goBack();
+            },
+          },
+        ]);
+      } else {
+        // Show an error alert with the error message
+        Alert.alert('Error', data.error);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      // Show an alert for any unexpected errors
+      Alert.alert('Error', 'Failed to save job ad. Please try again.');
+    }
   };
+  
 
   const handleBack = () => {
-    navigation.navigate('MainApp')
+    //navigation.navigate('MainApp', {user})
+    navigation.goBack()
   }
 
   return (

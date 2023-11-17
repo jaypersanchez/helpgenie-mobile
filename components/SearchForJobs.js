@@ -1,21 +1,73 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-//import SearchForJobs from './SearchForJobs'; // Import the SearchForJobs component
+import React, { useState,useEffect } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView,
+        Modal, TouchableHighlight } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import PostCard from './PostCard';
 
-const SearchForJobs = ( {navigation} ) => {
 
-    const [searchString, setSearchString] = useState()
+const SearchForJobs = ( {route} ) => {
 
-  const handleSearch = () => {
-    // Implement your search logic here
-    console.log(`Searching for jobs with keyword: ${searchString}`);
-    // You can update your state or perform any other actions here
-    //navigation.navigate('MainApp');
-    Alert.alert('Success', 'Searching for Jobs Done!')
+  const user = route.params;
+  const navigation = useNavigation();
+  const [searchString, setSearchString] = useState()
+  const [searchResults, setSearchResults] = useState([]);
+
+  useEffect(() => {
+    console.log("Received User in SearchForJobs:", route.params?.user);
+  }, []);
+
+  const handleSearch = async () => {
+    try {
+      console.log(`Searching for jobs with keyword: ${searchString}`);
+      
+      // Make a request to the search endpoint
+      const response = await fetch(`http://localhost:3000/search-ads?search=${encodeURIComponent(searchString)}`);
+      
+      // Check if the request was successful
+      if (!response.ok) {
+        throw new Error(`Search failed with status: ${response.status}`);
+      }
+      
+      // Parse the response data
+      const data = await response.json();
+      // Process the data returned from the server
+      setSearchResults(data);
+      
+      // Process the data returned from the server
+      // Assuming data is an array of job ads
+      /*const transformedData = data.map(jobAd => ({
+        id: jobAd._id,
+        title: jobAd.title,
+        description: jobAd.description,
+        budget: jobAd.budget,
+      }));*/
+       // Get the number of items in transformedData
+       const numberOfItems = data.length;
+      // Show a success alert
+      Alert.alert('Success', `Found ${numberOfItems} Matching Jobs`, [
+        {
+          text: 'OK',
+          /*onPress: () => {
+            // Navigate back
+            navigation.goBack({
+              screen: 'MainApp',
+              params: {
+                searchResults: transformedData,
+                user: route.params.user,  // Include the user parameter
+              }
+            });
+          },*/
+        },
+      ]);
+    } catch (error) {
+      console.error('Search error:', error);
+      // Handle errors and show appropriate alerts or update state
+      // For example, Alert.alert('Error', 'Search failed. Please try again.');
+    }
   };
 
   const handleBack = () => {
-    navigation.navigate('MainApp')
+    navigation.goBack()
   }
 
   return (
@@ -37,6 +89,20 @@ const SearchForJobs = ( {navigation} ) => {
         </TouchableOpacity>
       </View>
 
+        {/* Display search results below the buttons */}
+        {searchResults.length > 0 && (
+          <ScrollView style={{marginTop: 50}}>
+            {searchResults.map((result) => (
+              <PostCard
+              key={result._id}
+              title={result.jobTitle || result.title || 'Default Title'}
+              content={result.jobDescription || result.description || 'Default Description'}
+              estimatedBudget={result.budgetEstimate || result.budget || 'Default Budget'}
+            />
+            ))}
+          </ScrollView>
+        )}
+
     </View>
   );
 };
@@ -46,6 +112,7 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      marginTop: 50
     },
     label: {
       fontSize: 16,

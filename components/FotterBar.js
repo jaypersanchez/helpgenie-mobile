@@ -4,26 +4,53 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 
-const FooterBar = () => {
-
+const FooterBar = ({ user }) => {
+  
   const navigation = useNavigation();
+  console.log(`FooterBar ${user.email}::${user.userid}`)
 
-  const handlePlusSquarePress = () => {
-    navigation.navigate('PostJobAd');
+  const handlePlusSquarePress = async () => {
+    navigation.navigate('PostJobAd', {user});
   };
 
-  const handleMessages = () => {
-    navigation.navigate('Messages');
+  const handleSearch = () => {
+    navigation.navigate('SearchForJobs',{user});
   }
 
-  const handleSearch = () => {
-    navigation.navigate('SearchForJobs');
+  const handleMessages = () => {
+    navigation.navigate('Messages', {user});
   }
 
   const handleSettings = () => {
     navigation.navigate('Settings');
   }
 
+  /*
+  Icon names that you can use:
+
+"home"
+"user"
+"heart"
+"search"
+"gear" or "cog"
+"camera"
+"comments"
+"bell"
+"bookmark"
+"paper-plane" or "send"
+"map"
+"music"
+"film" or "video-camera"
+"gift"
+"sun" or "moon" (for light/dark mode)
+"star"
+"check"
+"times" or "close"
+"arrow-up"
+"arrow-down"
+"arrow-left"
+"arrow-right"
+  */
   return (
     <View style={styles.footer}>
       
