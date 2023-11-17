@@ -75,6 +75,7 @@ const MainApp = ({route}) => {
       }
   
       const data = await response.json();
+      console.log(`getJobAds ${data}`)
       // Assuming data is an array of job ads
       const transformedData = data.map(jobAd => ({
         id: jobAd._id,

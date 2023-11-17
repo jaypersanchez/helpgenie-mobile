@@ -17,7 +17,7 @@ const HeaderBar = ({user}) => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   
-  console.log(`HeaderBar ${user.email}::${user.userid}`)
+  console.log(`HeaderBar ${user.firstname}::${user.email}::${user.userid}`)
   /*const navigateToUserProfile = () => {
     navigation.navigate('UserProfile')
   }*/
@@ -55,7 +55,7 @@ const HeaderBar = ({user}) => {
         style={styles.rightIcon}
       />
       </TouchableOpacity>
-        <Text style={styles.headerText}>Help Genie</Text>
+        <Text style={styles.headerText}>{user.firstname} Help Juan</Text>
         <TouchableOpacity onPress={navigateToUserProfile}>
       <Image
         source={require('../assets/code_ninja.jpeg')} // Adjust the path as needed
