@@ -22,7 +22,7 @@ const MainApp = ({route}) => {
   useFocusEffect(
         useCallback(() => {
           if (user?.email) {
-            console.log(`MainApp User State ${user.id}::${user.email}::${user.id}::${user.token}`)
+            console.log(`MainApp User State ${user.userid}::${user.email}::${user.userid}::${user.token}`)
           }
         }, [])
   );

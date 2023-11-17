@@ -40,7 +40,7 @@ const handleLogin = async () => {
   
       
       const data = await response.json();
-      console.log(`data ${data}`)
+      console.log(`data ${JSON.stringify(data)}`)
       //if (data.message === 'true') {
         //console.log(`Login ${JSON.stringify(data)}`)
         // Registration was successful, navigate to MainApp

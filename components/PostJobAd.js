@@ -4,15 +4,15 @@ import { useNavigation } from '@react-navigation/native';
 
 const PostJobAd = ({ route }) => {
 
-  const user = route.params;
+  const user = route.params?.user;
   const navigation = useNavigation();
-  const [userid, setUserId] = useState('')
+  const [userid, setUserId] = useState(user.userid)
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [budget, setBudget] = useState('');
 
   useEffect(() => {
-    console.log("Received User in PostJobAd:", route.params?.user);
+    console.log("Received User in PostJobAd:", userid);
   }, []);
 
   const handleSave = async () => {
