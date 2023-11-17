@@ -17,7 +17,7 @@ const HeaderBar = ({user}) => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   
-  console.log(`HeaderBar ${user.email}::${user.id}`)
+  console.log(`HeaderBar ${user.email}::${user.userid}`)
   /*const navigateToUserProfile = () => {
     navigation.navigate('UserProfile')
   }*/
