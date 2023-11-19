@@ -37,18 +37,16 @@ const handleLogin = async () => {
           password,
         }),
       });
-  
       
       const data = await response.json();
       console.log(`data ${JSON.stringify(data)}`)
-      //if (data.message === 'true') {
-        //console.log(`Login ${JSON.stringify(data)}`)
-        // Registration was successful, navigate to MainApp
-        navigation.navigate('MainApp', {user:data});
-      //} else {
-        // Registration failed, display an alert with the error message
-        //Alert.alert('Login Failed', JSON.stringify(data));
-     // }
+      if (data.message === "success") {
+        // Login was successful, navigate to MainApp
+        navigation.navigate('MainApp', { user: data });
+      } else {
+        // Login failed, display an alert with the error message
+        Alert.alert('Login Failed', data.error || 'Invalid credentials');
+      }
   };
 
   const handleRegister = async () => {
@@ -98,14 +96,17 @@ const handleLogin = async () => {
   }
 
   const validateInputs = async () => {
-    // Validate email
-    console.log(`validate input`)
+    // Validate email format
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
     if (!email || !password) {
       Alert.alert('Email and password are required');
-      return "failed"
-    }
-    else {
-      return "success"
+      return "failed";
+    } else if (!isValidEmail) {
+      Alert.alert('Invalid Email', 'Please enter a valid email address');
+      return "failed";
+    } else {
+      return "success";
     }
   }
   
