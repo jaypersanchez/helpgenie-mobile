@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView,
         Modal, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PostCard from './PostCard';
+import MyJobPostCard from './MyJobPostCard';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -123,7 +124,7 @@ const SearchForJobs = ( {route} ) => {
           <View style={styles.myActiveJobsContainer}>
             <Text style={styles.myActiveJobsHeader}>My Active Jobs</Text>
             {myActiveJobs.map((job) => (
-              <PostCard
+              <MyJobPostCard
                 key={uuidv4()}
                 jobid={job._id} 
                 title={job.title}
