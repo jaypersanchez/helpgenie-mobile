@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert,  Modal, TouchableHighlight, TextInput } from 'react-native';
+import ClientBidderComponent from './ClientBidderComponent';
 
 const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
 
@@ -57,6 +58,14 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
       }
     };
 
+    const handleBidderNamePress = (bidderInfo) => {
+        // Logic to open the ClientBidderComponent
+        // You might use navigation or state to manage this
+        // Pass the required props to ClientBidderComponent
+        // For example:
+        //setOpenBidderInfo(bidderInfo);
+    };
+
   return (
     <TouchableOpacity onPress={handleCardPress}>
       <View style={styles.card}>
@@ -69,14 +78,25 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
           <View>
             <Text>Bidders:</Text>
             {bidders.map((bidder) => (
-              <View key={bidder.bidderId}>
-                <Text>{bidder.bidderName}</Text>
-                <Text>{bidder.bidAmount}</Text>
-                {/* Add more bidder information as needed */}
-              </View>
+                <TouchableOpacity key={bidder.bidderId} onPress={() => handleBidderNamePress(bidder)}>
+                <View>
+                    <Text>{bidder.bidderName}</Text>
+                    <Text>{bidder.bidAmount}</Text>
+                    {/* Add more bidder information as needed */}
+                </View>
+                </TouchableOpacity>
             ))}
           </View>
         )}
+        {/* Open ClientBidderComponent when needed */}
+        
+            <ClientBidderComponent
+            user={userid}
+            bidderInfo={0}
+            onUpdateBid={0}
+            onRewardProject={0}
+            />
+        
       </View>
     </TouchableOpacity>
 
