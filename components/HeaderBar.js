@@ -55,7 +55,8 @@ const HeaderBar = ({user}) => {
         style={styles.rightIcon}
       />
       </TouchableOpacity>
-        <Text style={styles.headerText}>{user.firstname} Help Juan</Text>
+        <Text style={styles.headerText}>Hello {user.firstname} Please Help Juan</Text>
+        
         <TouchableOpacity onPress={navigateToUserProfile}>
       <Image
         source={require('../assets/code_ninja.jpeg')} // Adjust the path as needed
