@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import PostCard from './PostCard';
 
 const PostJobAd = ({ route }) => {
 
@@ -134,11 +135,12 @@ const PostJobAd = ({ route }) => {
         {/* Display user's job ads here */}
         {/* Display user's job ads here */}
         {userJobAds.map((jobAd) => (
-          <View key={jobAd._id}>
-            <Text>Title: {jobAd.title}</Text>
-            <Text>Description: {jobAd.description}</Text>
-            <Text>Budget: {jobAd.budget}</Text>
-          </View>
+          <PostCard
+          key={jobAd._id}  // Assuming '_id' is the unique identifier
+          title={jobAd.title}
+          content={jobAd.description}
+          estimatedBudget={jobAd.budget}
+        />
         ))}
       </View>
 
