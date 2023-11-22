@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert,  Modal, TouchableHighlight, TextInput } from 'react-native';
-import ClientBidderComponent from './ClientBidderComponent';
+//import ClientBidderComponent from './ClientBidderComponent';
 
 const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
 
     const [showMoreInfo, setShowMoreInfo] = useState(false);
     const [bidAmount, setBidAmount] = useState('');
     const [bidders, setBidders] = useState([]);
-    
+    //this is the bidderId(_id) of the User record that the client would like to message
+    const [bidderInfo, setOpenBidderInfo] = useState({})
+    const [messageto, setMessageTo]=useState('');
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [message, setMessage]=useState('')
+
+    console.log(`data ${userid}:${jobid}::${title}`)
     const handleCardPress = async () => {
         // Fetch bidders when the Card is tapped
         try {
@@ -59,11 +65,46 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
     };
 
     const handleBidderNamePress = (bidderInfo) => {
-        // Logic to open the ClientBidderComponent
-        // You might use navigation or state to manage this
-        // Pass the required props to ClientBidderComponent
-        // For example:
-        //setOpenBidderInfo(bidderInfo);
+        setOpenBidderInfo(bidderInfo);
+        console.log(`handleBidderNamePress ${JSON.stringify(bidderInfo)}`)
+        setMessageTo(bidderInfo)
+        setModalVisible(true);
+    };
+
+    const sendMessage = async () => {
+        console.log(`Sending Message To ${JSON.stringify(bidderInfo)}`)
+        
+        try {
+            
+            const messageData = {
+                senderId: userid,
+                receiverId: bidderInfo.bidderId,
+                message: message,
+            };
+            const response = await fetch(`http://localhost:3000/job/${jobid}/bid/${bidderInfo.jobbidid}/message`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(messageData),
+            });
+            
+            if (!response.ok) {
+            throw new Error(`Message submission failed with status: ${JSON.stringify(response)}`);
+            }
+            else {
+                setModalVisible(false);
+            }
+        }
+        catch (error) {
+            console.error('Error submitting message:', error);
+            // Handle the error as needed
+            Alert.alert('Error', 'Failed to send message. Please try again later.');
+        }
+    };
+
+    const closeModal = () => {
+        setModalVisible(false);
     };
 
   return (
@@ -73,30 +114,55 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
         <Text style={styles.content}>{content}</Text>
         <Text style={styles.budget}>Estimated Budget: {estimatedBudget}</Text>
 
-        {/* Display additional information */}
+        {/* Display bidders of the project */}
         {bidders.length > 0 && (
           <View>
             <Text>Bidders:</Text>
             {bidders.map((bidder) => (
-                <TouchableOpacity key={bidder.bidderId} onPress={() => handleBidderNamePress(bidder)}>
-                <View>
+                <View key={bidder.bidderId}>
+                <TouchableOpacity onPress={() => handleBidderNamePress(bidder)}>
                     <Text>{bidder.bidderName}</Text>
-                    <Text>{bidder.bidAmount}</Text>
-                    {/* Add more bidder information as needed */}
-                </View>
                 </TouchableOpacity>
+                
+                    <Text>{bidder.bidAmount}</Text>
+                
+                {/* Add more bidder information as needed */}
+                </View>
             ))}
           </View>
         )}
-        {/* Open ClientBidderComponent when needed */}
-        
-            <ClientBidderComponent
-            user={userid}
-            bidderInfo={0}
-            onUpdateBid={0}
-            onRewardProject={0}
+
+        {/* Modal for messaging */}
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={closeModal}
+        >
+        <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+            <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>X</Text>
+            </TouchableOpacity>
+            <Text style={styles.title}>{messageto.bidderName}</Text>
+            {/* TextInput for typing a message */}
+            <TextInput
+                style={styles.input}
+                placeholder="Type your message..."
+                // Add onChangeText to update the message state
+                onChangeText={(text) => setMessage(text)}
+                // Value should be the state value for the message
+                value={message}
             />
-        
+            {/* Button to send the message */}
+            <TouchableOpacity style={styles.modalButton} onPress={sendMessage}>
+                <Text>Send Message</Text>
+            </TouchableOpacity>
+            
+            </View>
+        </View>
+        </Modal>
+
       </View>
     </TouchableOpacity>
 
@@ -134,7 +200,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 20,
   },
   content: {
     fontSize: 16,
@@ -154,13 +220,15 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     elevation: 5,
+    alignItems: 'center'
   },
   input: {
-    height: 40,
+    fontSize: 16,
+    marginBottom: 20,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
+    borderRadius: 5,
+    padding: 10,
   },
   modalButton: {
     backgroundColor: '#4CAF50',
@@ -173,6 +241,7 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     padding: 10,
+    marginTop: 20
   },
   closeButtonText: {
     fontSize: 20,

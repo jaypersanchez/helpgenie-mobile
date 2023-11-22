@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PostCard from './PostCard';
 import MyJobPostCard from './MyJobPostCard';
@@ -130,22 +130,24 @@ const PostJobAd = ({ route }) => {
         </TouchableOpacity>
       </View>
 
-      {/* Section for My Job Post */}
-      <View style={styles.myJobPostContainer}>
-        <Text style={styles.myJobPostHeader}>My Job Post</Text>
-        {/* Display user's job ads here */}
-        {/* Display user's job ads here */}
-        {userJobAds.map((jobAd) => (
-          <MyJobPostCard
-          key={jobAd._id}  // Assuming '_id' is the unique identifier
-          userid={userid} 
-          jobid={jobAd._id}
-          title={jobAd.title}
-          content={jobAd.description}
-          estimatedBudget={jobAd.budget}
-        />
-        ))}
-      </View>
+      <ScrollView>
+        {/* Section for My Job Post */}
+        <View style={styles.myJobPostContainer}>
+          <Text style={styles.myJobPostHeader}>My Job Post</Text>
+          {/* Display user's job ads here */}
+          {/* Display user's job ads here */}
+          {userJobAds.map((jobAd) => (
+            <MyJobPostCard
+            key={jobAd._id}  // Assuming '_id' is the unique identifier
+            userid={userid} 
+            jobid={jobAd._id}
+            title={jobAd.title}
+            content={jobAd.description}
+            estimatedBudget={jobAd.budget}
+          />
+          ))}
+        </View>
+      </ScrollView>
 
     </View>
   );
