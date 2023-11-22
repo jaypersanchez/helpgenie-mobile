@@ -3,7 +3,8 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView,
         Modal, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PostCard from './PostCard';
-import MyJobPostCard from './MyJobPostCard';
+//import MyJobPostCard from './MyJobPostCard';
+import MyActiveJobsCard from './MyActiveJobsCard'
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -38,12 +39,13 @@ const SearchForJobs = ( {route} ) => {
       
       // Process the data returned from the server
       // Assuming data is an array of job ads
-      /*const transformedData = data.map(jobAd => ({
+      const transformedData = data.map(jobAd => ({
         id: jobAd._id,
         title: jobAd.title,
         description: jobAd.description,
         budget: jobAd.budget,
-      }));*/
+      }));
+
        // Get the number of items in transformedData
        const numberOfItems = data.length;
       // Show a success alert
@@ -121,18 +123,22 @@ const SearchForJobs = ( {route} ) => {
 
         {/* Display "My Active Jobs" if there are active jobs */}
         {myActiveJobs.length > 0 && (
+          <ScrollView style={{marginTop: 50}}>
           <View style={styles.myActiveJobsContainer}>
             <Text style={styles.myActiveJobsHeader}>My Active Jobs</Text>
+            
             {myActiveJobs.map((job) => (
-              <MyJobPostCard
+              <MyActiveJobsCard
                 key={uuidv4()}
-                jobid={job._id} 
+                userid={userid}
+                jobid={job.jobid} 
                 title={job.title}
                 content={job.description}
                 estimatedBudget={job.budget}
               />
             ))}
           </View>
+          </ScrollView>
       )}
 
     </View>
