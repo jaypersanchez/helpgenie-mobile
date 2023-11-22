@@ -75,7 +75,7 @@ const SearchForJobs = ( {route} ) => {
 
       const data = await response.json();
       // Update state with user's active jobs
-      console.log(`MyActiveJobs by ${userid}${JSON.stringify(data)}`)
+      console.log(`MyActiveJobs by ${userid}::${JSON.stringify(data)}`)
       setMyActiveJobs(data);
     } catch (error) {
       console.error('Error:', error);
@@ -131,6 +131,7 @@ const SearchForJobs = ( {route} ) => {
               <MyActiveJobsCard
                 key={uuidv4()}
                 userid={userid}
+                jobuserid={job.userid}
                 jobid={job.jobid} 
                 title={job.title}
                 content={job.description}

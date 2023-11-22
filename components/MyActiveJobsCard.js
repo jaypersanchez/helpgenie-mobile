@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert,  Modal, TouchableHighlight, TextInput } from 'react-native';
 //import ClientBidderComponent from './ClientBidderComponent';
 
-const MyActiveJobsCard = ({ userid, jobid, title, content, estimatedBudget }) => {
+const MyActiveJobsCard = ({ userid, jobuserid, jobid, title, content, estimatedBudget }) => {
 
     const [showMoreInfo, setShowMoreInfo] = useState(false);
     const [bidAmount, setBidAmount] = useState('');
@@ -13,7 +13,7 @@ const MyActiveJobsCard = ({ userid, jobid, title, content, estimatedBudget }) =>
     const [isModalVisible, setModalVisible] = useState(false);
     const [message, setMessage]=useState('')
 
-    console.log(`Getting messages for jobid ${jobid} from bidder ${userid}`)
+    console.log(`Getting messages for jobid ${jobid} posted by ${jobuserid} from bidder ${userid}`)
 
     const handleCardPress = async () => {
         // Fetch messages for bidders when the Card is tapped
@@ -71,20 +71,20 @@ const MyActiveJobsCard = ({ userid, jobid, title, content, estimatedBudget }) =>
     const handleBidderNamePress = (bidderInfo) => {
         setOpenBidderInfo(bidderInfo);
         console.log(`handleBidderNamePress ${JSON.stringify(bidderInfo)}`)
-        setMessageTo(bidderInfo)
+        setMessage(bidderInfo)
         setModalVisible(true);
     };
 
     const sendMessage = async () => {
-        console.log(`Sending Message To ${JSON.stringify(bidderInfo)}`)
         
         try {
-            
+            console.log(`Sending Message To ${JSON.stringify(jobuserid)} from ${userid} to ${jobuserid} message is ${message}`)
             const messageData = {
                 senderId: userid,
-                receiverId: bidderInfo.bidderId,
+                receiverId: jobuserid,
                 message: message,
             };
+            
             const response = await fetch(`http://localhost:3000/job/${jobid}/bid/${bidderInfo.jobbidid}/message`, {
             method: 'POST',
             headers: {
@@ -111,6 +111,11 @@ const MyActiveJobsCard = ({ userid, jobid, title, content, estimatedBudget }) =>
         setModalVisible(false);
     };
 
+    const handleOpenModal = (message) => {
+        setMessage(message);
+        setModalVisible(true);
+    };
+
   return (
     <TouchableOpacity onPress={handleCardPress}>
       <View style={styles.card}>
@@ -129,6 +134,9 @@ const MyActiveJobsCard = ({ userid, jobid, title, content, estimatedBudget }) =>
                 </TouchableOpacity>
                 <Text>{message.message}</Text>
                 {/* Add more message information as needed */}
+                <TouchableOpacity onPress={() => handleOpenModal(message)}>
+                <Text>Reply</Text>
+                </TouchableOpacity>
             </View>
             ))}
         </View>
