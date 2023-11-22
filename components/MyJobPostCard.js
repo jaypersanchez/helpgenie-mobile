@@ -14,6 +14,7 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
     const [message, setMessage]=useState('')
 
     console.log(`data ${userid}:${jobid}::${title}`)
+
     const handleCardPress = async () => {
         // Fetch bidders when the Card is tapped
         try {
@@ -22,7 +23,7 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
             throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const data = await response.json();
-            console.log('Bidders:', data);
+            console.log(`Bidders: ${JSON.stringify(data.bidderId)}::${JSON.stringify(data)}`);
             // Set the bidders data in the state
             setBidders(data);
         } catch (error) {
@@ -67,8 +68,23 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
     const handleBidderNamePress = (bidderInfo) => {
         setOpenBidderInfo(bidderInfo);
         console.log(`handleBidderNamePress ${JSON.stringify(bidderInfo)}`)
-        setMessageTo(bidderInfo)
-        setModalVisible(true);
+        // Fetch messages for the specific job and bidder
+        fetch(`http://localhost:3000/job/${jobid}/bid/${bidderInfo.bidderId}/messages`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Messages:', data);
+          // Set the messages data in the state or handle it as needed
+          setMessage(data);
+
+          // Show the modal
+          setModalVisible(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching messages:', error);
+          // Handle the error as needed
+        });
+        //setMessageTo(bidderInfo)
+        //setModalVisible(false); //false for now
     };
 
     const sendMessage = async () => {
@@ -123,10 +139,9 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
                 <TouchableOpacity onPress={() => handleBidderNamePress(bidder)}>
                     <Text>{bidder.bidderName}</Text>
                 </TouchableOpacity>
-                
-                    <Text>{bidder.bidAmount}</Text>
-                
+                <Text>{bidder.bidAmount}</Text>
                 {/* Add more bidder information as needed */}
+
                 </View>
             ))}
           </View>
