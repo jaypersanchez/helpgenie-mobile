@@ -78,6 +78,7 @@ const MyActiveJobsCard = ({ userid, jobuserid, jobid, title, content, estimatedB
     const sendMessage = async () => {
         
         try {
+            console.log(`MsgURL http://localhost:3000/job/${jobid}/bid/${userid}/bidder-message`)
             console.log(`Sending Message To ${JSON.stringify(jobuserid)} from ${userid} to ${jobuserid} message is ${message}`)
             const messageData = {
                 senderId: userid,
@@ -85,7 +86,7 @@ const MyActiveJobsCard = ({ userid, jobuserid, jobid, title, content, estimatedB
                 message: message,
             };
             
-            const response = await fetch(`http://localhost:3000/job/${jobid}/bid/${bidderInfo.jobbidid}/message`, {
+            const response = await fetch(`http://localhost:3000/job/${jobid}/bid/${userid}/bidder-message`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
