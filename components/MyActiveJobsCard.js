@@ -118,23 +118,22 @@ const MyActiveJobsCard = ({ userid, jobid, title, content, estimatedBudget }) =>
         <Text style={styles.content}>{content}</Text>
         <Text style={styles.budget}>Estimated Budget: {estimatedBudget}</Text>
 
-        {/* Display bidders of the project */}
-        {bidders.length > 0 && (
-          <View>
-            <Text>Bidders:</Text>
-            {bidders.map((bidder) => (
-                <View key={bidder.bidderId}>
-                <TouchableOpacity onPress={() => handleBidderNamePress(bidder)}>
-                    <Text>{bidder.bidderName}</Text>
+        {/* Display messages of the project */}
+        {bidders && bidders.messages && bidders.messages.length > 0 && (
+        <View>
+            <Text>Messages:</Text>
+            {bidders.messages.map((message) => (
+            <View key={message.messageId}>
+                <TouchableOpacity onPress={() => handleBidderNamePress(message)}>
+                <Text>{message.senderName}</Text>
                 </TouchableOpacity>
-                
-                    <Text>{bidder.bidAmount}</Text>
-                
-                {/* Add more bidder information as needed */}
-                </View>
+                <Text>{message.message}</Text>
+                {/* Add more message information as needed */}
+            </View>
             ))}
-          </View>
+        </View>
         )}
+
 
         {/* Modal for messaging */}
         <Modal
