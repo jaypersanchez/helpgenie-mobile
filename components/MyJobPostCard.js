@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert,  Modal, TouchableHighlight, TextInput } from 'react-native';
 //import ClientBidderComponent from './ClientBidderComponent';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
 
+    const [loading, setLoading] = useState(false);
     const [showMoreInfo, setShowMoreInfo] = useState(false);
     const [bidAmount, setBidAmount] = useState('');
     const [bidders, setBidders] = useState([]);
@@ -11,7 +13,7 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
     const [bidderInfo, setOpenBidderInfo] = useState({})
     const [messageto, setMessageTo]=useState('');
     const [isModalVisible, setModalVisible] = useState(false);
-    const [message, setMessage]=useState('')
+    const [message, setMessage]=useState([])
 
     console.log(`data ${userid}:${jobid}::${title}`)
 
@@ -35,6 +37,20 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
       setModalVisible(true);
     };
   
+    const getDirectMessages = async (bidderInfo) => {
+      fetch(`http://localhost:3000/job/${jobid}/bid/${bidderInfo.bidderId}/messages`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('getDirectMessages:', data);
+        // Set the messages data in the state or handle it as needed
+        setMessage(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching messages:', error);
+        // Handle the error as needed
+      });
+    }
+
     const handleBidSubmit = async () => {
       try {
         // Assume you have jobId, bidderId, and bidAmount available
@@ -68,23 +84,24 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
     const handleBidderNamePress = (bidderInfo) => {
         setOpenBidderInfo(bidderInfo);
         console.log(`handleBidderNamePress ${JSON.stringify(bidderInfo)}`)
-        // Fetch messages for the specific job and bidder
-        fetch(`http://localhost:3000/job/${jobid}/bid/${bidderInfo.bidderId}/messages`)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Messages:', data);
-          // Set the messages data in the state or handle it as needed
-          setMessage(data);
 
-          // Show the modal
-          setModalVisible(false);
-        })
+          // Fetch messages for the specific job and bidder
+          /*fetch(`http://localhost:3000/job/${jobid}/bid/${bidderInfo.bidderId}/messages`)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log('Messages:', data);
+            // Set the messages data in the state or handle it as needed
+            setMessage(data);
+            setLoading(false); // Show the spinner
+            // Show the modal
+            setModalVisible(true);
+          })
         .catch((error) => {
           console.error('Error fetching messages:', error);
           // Handle the error as needed
-        });
-        //setMessageTo(bidderInfo)
-        //setModalVisible(false); //false for now
+        });*/
+        setMessageTo(bidderInfo)
+        setModalVisible(true); //false for now
     };
 
     const sendMessage = async () => {
@@ -135,17 +152,31 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
           <View>
             <Text>Bidders:</Text>
             {bidders.map((bidder) => (
-                <View key={bidder.bidderId}>
+              <View key={bidder.bidderId}>
                 <TouchableOpacity onPress={() => handleBidderNamePress(bidder)}>
-                    <Text>{bidder.bidderName}</Text>
+                  <Text>{bidder.bidderName}</Text>
                 </TouchableOpacity>
                 <Text>{bidder.bidAmount}</Text>
                 {/* Add more bidder information as needed */}
-
-                </View>
+                
+                {/* Display messages for the bidder */}
+                {message && message.length > 0 && (
+                  <View>
+                    <Text>Messages:</Text>
+                    {message.map((_message) => (
+                      <View key={_message.messageId}>
+                        <Text>{_message.senderName}</Text>
+                        <Text>{_message.message}</Text>
+                        {/* Add more message information as needed */}
+                      </View>
+                    ))}
+                  </View>
+                )}
+              </View>
             ))}
           </View>
         )}
+
 
         {/* Modal for messaging */}
         <Modal
@@ -177,10 +208,14 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
             </View>
         </View>
         </Modal>
-
+        <Spinner
+          visible={loading}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerText}
+        />
       </View>
     </TouchableOpacity>
-
+    
   );
 };
 
