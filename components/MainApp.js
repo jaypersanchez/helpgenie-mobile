@@ -22,6 +22,7 @@ const MainApp = ({route}) => {
   useFocusEffect(
         useCallback(() => {
           if (user?.email) {
+            console.log(`MainApp USER ${JSON.stringify(user)}`)
             console.log(`MainApp User State ${user.userid}::${user.email}::${user.userid}::${user.token}`)
           }
         }, [])

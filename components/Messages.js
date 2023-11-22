@@ -33,15 +33,14 @@ const Messages = ( {route} ) => {
 
       return (
         <View style={styles.container}>
-          <ScrollView style={styles.mainContent}>
+          <ScrollView style={{ flex: 1 }}>
             {/* Render each card */}
-            {jobAds.map((jobAd) => (
+            {jobAds.map((jobad) => (
               <TouchableOpacity
-                key={jobAd._id}
-                onPress={() => navigation.navigate('MessagesCard', { user, jobAd })}
-                style={styles.cardContainer}
+                key={jobad._id.$oid}
+                onPress={() => navigation.navigate('MessagesCard', { user, jobad })}
               >
-                <MessagesCard title={jobAd.title} content={jobAd.description} />
+                <MessagesCard user={user} jobad={jobad} title={jobad.title} content={jobad.description} />
               </TouchableOpacity>
             ))}
           </ScrollView>
