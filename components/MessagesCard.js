@@ -59,6 +59,29 @@ const MessagesCard = ({ user, jobad, title, content }) => {
         });
     };
 
+    const handleRewardPress = (jobId, bidId) => {
+      // Construct the endpoint URL based on jobad and bid
+      console.log(`Reward to ${jobId}/${bidId}`)
+      const endpoint = `http://localhost:3000/job/reward-bid/${jobId}/${bidId}`;
+    
+      // Send the reward request using fetch or your preferred method
+      fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle success or error
+          console.log('Bid rewarded:', data);
+        })
+        .catch((error) => {
+          console.error('Error rewarding bid:', error);
+        });
+    };
+    
+    
   return (
     <TouchableOpacity onPress={handleCardPress}>
       <View style={styles.card}>
@@ -69,7 +92,7 @@ const MessagesCard = ({ user, jobad, title, content }) => {
         {showMoreInfo && (
           <View>
             {jobad.bids.map((bid) => (
-              <View key={bid._id.$oid}>
+              <View key={bid._id.$oid} style={{ marginBottom:20}} >
                 <Text>Bidder: {bid.bidderId}</Text>
                 <Text>Bid Amount: {bid.bidAmount}</Text>
 
@@ -83,15 +106,33 @@ const MessagesCard = ({ user, jobad, title, content }) => {
                         <Text>{message.message}</Text>
                         
                         {/* Add a reply button */}
-                        <TouchableOpacity onPress={()=>handleReplyPress(bid)}>
-                          <Text>Reply</Text>
+                        <TouchableOpacity onPress={()=>handleReplyPress(bid)}
+                            style={{
+                              borderWidth: 1,
+                              borderColor: 'darkgreen',
+                              borderRadius: 5, // Optional: You can adjust the border radius
+                            }}
+                        >
+                          <Text style={{ fontWeight: 'bold', color: 'darkblue' }}>Reply</Text>
                         </TouchableOpacity>
                       </View>
                     ))}
                   </View>
                 )}
+
+                 {/* Reward button */}
+                <TouchableOpacity onPress={() => handleRewardPress(jobad._id, bid._id)} style={{
+                  borderWidth: 1,
+                  borderColor: 'darkgreen',
+                  borderRadius: 5, // Optional: You can adjust the border radius
+                }}>
+                  <Text style={{ fontWeight: 'bold', color: 'darkgreen', padding:5 }}>Reward</Text>
+                </TouchableOpacity>
               </View>
             ))}
+
+           
+
           </View>
         )}
       </View>
