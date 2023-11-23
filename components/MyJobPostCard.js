@@ -86,7 +86,7 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
         console.log(`handleBidderNamePress ${JSON.stringify(bidderInfo)}`)
 
           // Fetch messages for the specific job and bidder
-          /*fetch(`http://localhost:3000/job/${jobid}/bid/${bidderInfo.bidderId}/messages`)
+          fetch(`http://localhost:3000/job/${jobid}/bid/${bidderInfo.bidderId}/messages`)
           .then((response) => response.json())
           .then((data) => {
             console.log('Messages:', data);
@@ -99,7 +99,7 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
         .catch((error) => {
           console.error('Error fetching messages:', error);
           // Handle the error as needed
-        });*/
+        });
         setMessageTo(bidderInfo)
         setModalVisible(true); //false for now
     };
@@ -160,13 +160,13 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
                 {/* Add more bidder information as needed */}
                 
                 {/* Display messages for the bidder */}
-                {message && message.length > 0 && (
+                {Array.isArray(message) && message.length > 0 && (
                   <View>
                     <Text>Messages:</Text>
-                    {message.map((_message) => (
-                      <View key={_message.messageId}>
-                        <Text>{_message.senderName}</Text>
-                        <Text>{_message.message}</Text>
+                    {message.map((msg) => (
+                      <View key={msg.messageId}>
+                        <Text>{msg.senderName}</Text>
+                        <Text>{msg.message}</Text>
                         {/* Add more message information as needed */}
                       </View>
                     ))}
