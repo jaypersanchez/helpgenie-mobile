@@ -12,6 +12,8 @@ import SearchForJobs from './components/SearchForJobs';
 import Messages from './components/Messages';
 import Settings from './components/Settings';
 import UserProfile from './components/UserProfile';
+import PaymentMethods from './components/PaymentMethods';
+
 const UserContext = React.createContext();
 
 const Stack = createStackNavigator();
@@ -43,6 +45,7 @@ const App = () => {
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="UserProfile" component={UserProfile} />
         <Stack.Screen name="MainApp" component={MainApp} />
+        <Stack.Screen name="PaymentMethods" component={PaymentMethods} />
         
       </Stack.Navigator>
     </NavigationContainer>

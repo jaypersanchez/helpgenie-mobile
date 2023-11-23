@@ -1,52 +1,51 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-//import SearchForJobs from './SearchForJobs'; // Import the SearchForJobs component
+import { useNavigation } from '@react-navigation/native';
+import PaymentMethods from './PaymentMethods';
 
-const Settings = ( {navigation} ) => {
+const Settings = ( {route} ) => {
 
-    
+  const user = route.params;
+  console.log(`SettingsTab ${JSON.stringify(user)}::${user.user.userid}`)
+  const navigation = useNavigation();  
 
   return (
     <View style={styles.container}>
-      
-      <Text>Settings</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('MainApp')} style={styles.greenButton}>
-            <Text style={styles.buttonText}>Go Back</Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('PaymentMethods', { user })} style={styles.button}>
+        <Text style={styles.buttonText}>Payment Methods</Text>
+      </TouchableOpacity>
+
+      {/* Other components or views in your PaymentScreen if needed */}
+
+      <TouchableOpacity onPress={() => navigation.navigate('MainApp', {user})} style={styles.greenButton}>
+        <Text style={styles.buttonText}>Go Back</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginTop: 55,
-      bottom: 0
-    },
-    mainContent: {
-      flex: 1, // Takes the remaining space
-      width: '100%', // Take full width
-      paddingHorizontal: 16, // Padding on the sides
-    },
-    greenButton: {
-        backgroundColor: 'green', // Set the background color to green
-        width: 100, // Set the width
-        height: 50,  // Set the height
-        paddingVertical: 10, // Add vertical padding
-        paddingHorizontal: 10, // Add horizontal padding
-        borderRadius: 5, // Optional: Add rounded corners to the button
-        alignSelf: 'center', // Center the button horizontally
-        marginTop: 5, // Add some top margin for spacing
-        marginTop: 18,
-      },
-      buttonText: {
-        color: 'white', // Set the text color to white for better visibility on a green background
-        textAlign: 'center', // Center the text horizontally
-        fontSize: 18,
-      },
-  });
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: 'blue', // Adjust the color as needed
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 20,
+  },
+  greenButton: {
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+});
 
 export default Settings;

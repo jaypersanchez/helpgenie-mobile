@@ -28,6 +28,14 @@ const PostJobAd = ({ route }) => {
     };
   
     try {
+      /**
+       * Before saving the Job post, user must fund the project using selected 
+       * payment methods: GCash, Debit or Credit card
+       * For now, there must be a payment method setup which can be done in "Settings" tab
+       * If no payment method is setup from here, then user must cancel and then setup a payment method
+       * So when a user opens the Post Ad tab and payment methods is not setup, then stop the user 
+       * from proceeding.
+       */
       // Make a POST request to save the job ad
       const response = await fetch('http://localhost:3000/post-postads', {
         method: 'POST',
