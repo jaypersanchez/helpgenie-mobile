@@ -105,6 +105,12 @@ const MessagesCard = ({ user, jobad, title, content }) => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => setReplyModalVisible(false)}
+          >
+            <Text>X</Text>
+          </TouchableOpacity>
             <TextInput
               style={styles.input}
               placeholder="Type your reply..."
@@ -173,6 +179,15 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    padding: 10,
+    zIndex: 2, // Increase the zIndex
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Semi-transparent white background
+    borderRadius: 20, // Make it circular
   },
 });
 
