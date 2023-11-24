@@ -7,13 +7,14 @@ import { useNavigation } from '@react-navigation/native';
 const FooterBar = ({ user }) => {
   
   const navigation = useNavigation();
-  console.log(`FooterBar ${user.email}::${user.userid}`)
+  console.log(`FooterBar ${JSON.stringify(user)}::${user.email}::${user.userid}`)
 
   const handlePlusSquarePress = async () => {
     navigation.navigate('PostJobAd', {user});
   };
 
   const handleSearch = () => {
+    console.log(`footer handlesearch ${JSON.stringify(user)}`)
     navigation.navigate('SearchForJobs',{user});
   }
 

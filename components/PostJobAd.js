@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import PostCard from './PostCard';
+import MyJobPostCard from './MyJobPostCard';
 
 const PostJobAd = ({ route }) => {
 
@@ -10,6 +12,7 @@ const PostJobAd = ({ route }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [budget, setBudget] = useState('');
+  const [userJobAds, setUserJobAds] = useState([]);
 
   useEffect(() => {
     console.log("Received User in PostJobAd:", userid);
@@ -65,6 +68,31 @@ const PostJobAd = ({ route }) => {
     navigation.goBack()
   }
 
+  const fetchUserJobAds = async () => {
+    try {
+      // Assuming route.params.user.userid is the current user's ID
+      //const userId = route.params.user.userid;
+      const response = await fetch(`http://localhost:3000/get-jobads/${userid}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      // Assuming data is an array of job ads
+      console.log('User Job Ads:', data);
+      // Set the fetched job ads to state
+      setUserJobAds(data);
+    } catch (error) {
+      console.error('Error fetching user job ads:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch user job ads when the component mounts
+    fetchUserJobAds();
+  }, []); 
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Post Job Ad</Text>
@@ -101,6 +129,25 @@ const PostJobAd = ({ route }) => {
           <Text style={styles.buttonText}>Go Back</Text>
         </TouchableOpacity>
       </View>
+
+      <ScrollView>
+        {/* Section for My Job Post */}
+        <View style={styles.myJobPostContainer}>
+          <Text style={styles.myJobPostHeader}>My Job Post</Text>
+          {/* Display user's job ads here */}
+          {/* Display user's job ads here */}
+          {userJobAds.map((jobAd) => (
+            <MyJobPostCard
+            key={jobAd._id}  // Assuming '_id' is the unique identifier
+            userid={userid} 
+            jobid={jobAd._id}
+            title={jobAd.title}
+            content={jobAd.description}
+            estimatedBudget={jobAd.budget}
+          />
+          ))}
+        </View>
+      </ScrollView>
 
     </View>
   );
@@ -151,6 +198,17 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontSize: 18,
+  },
+  myJobPostContainer: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
+  },
+  myJobPostHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
 });
 

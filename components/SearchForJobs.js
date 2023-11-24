@@ -3,17 +3,21 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView,
         Modal, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PostCard from './PostCard';
+//import MyJobPostCard from './MyJobPostCard';
+import MyActiveJobsCard from './MyActiveJobsCard'
+import { v4 as uuidv4 } from 'uuid';
 
 
 const SearchForJobs = ( {route} ) => {
 
-  const user = route.params;
+  const { email, firstname, token, userid } = route.params.user;
   const navigation = useNavigation();
   const [searchString, setSearchString] = useState()
   const [searchResults, setSearchResults] = useState([]);
+  const [myActiveJobs, setMyActiveJobs] = useState([]);
 
   useEffect(() => {
-    console.log("Received User in SearchForJobs:", route.params?.user);
+    console.log("Received User in SearchForJobs:", email, userid);
   }, []);
 
   const handleSearch = async () => {
@@ -35,28 +39,19 @@ const SearchForJobs = ( {route} ) => {
       
       // Process the data returned from the server
       // Assuming data is an array of job ads
-      /*const transformedData = data.map(jobAd => ({
+      const transformedData = data.map(jobAd => ({
         id: jobAd._id,
         title: jobAd.title,
         description: jobAd.description,
         budget: jobAd.budget,
-      }));*/
+      }));
+
        // Get the number of items in transformedData
        const numberOfItems = data.length;
       // Show a success alert
       Alert.alert('Success', `Found ${numberOfItems} Matching Jobs`, [
         {
           text: 'OK',
-          /*onPress: () => {
-            // Navigate back
-            navigation.goBack({
-              screen: 'MainApp',
-              params: {
-                searchResults: transformedData,
-                user: route.params.user,  // Include the user parameter
-              }
-            });
-          },*/
         },
       ]);
     } catch (error) {
@@ -69,6 +64,29 @@ const SearchForJobs = ( {route} ) => {
   const handleBack = () => {
     navigation.goBack()
   }
+
+  const fetchMyActiveJobs = async () => {
+    try {
+      // Make a request to your endpoint to get user's active jobs
+      const response = await fetch(`http://localhost:3000/user-bids/${userid}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      // Update state with user's active jobs
+      console.log(`MyActiveJobs by ${userid}::${JSON.stringify(data)}`)
+      setMyActiveJobs(data);
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle error appropriately
+    }
+  };
+
+  useEffect(() => {
+    // Fetch user's active jobs when the component mounts
+    fetchMyActiveJobs();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -102,6 +120,27 @@ const SearchForJobs = ( {route} ) => {
             ))}
           </ScrollView>
         )}
+
+        {/* Display "My Active Jobs" if there are active jobs */}
+        {myActiveJobs.length > 0 && (
+          <ScrollView style={{marginTop: 50}}>
+          <View style={styles.myActiveJobsContainer}>
+            <Text style={styles.myActiveJobsHeader}>My Active Jobs</Text>
+            
+            {myActiveJobs.map((job) => (
+              <MyActiveJobsCard
+                key={uuidv4()}
+                userid={userid}
+                jobuserid={job.userid}
+                jobid={job.jobid} 
+                title={job.title}
+                content={job.description}
+                estimatedBudget={job.budget}
+              />
+            ))}
+          </View>
+          </ScrollView>
+      )}
 
     </View>
   );
@@ -153,6 +192,18 @@ const styles = StyleSheet.create({
       flexDirection: 'row', // Arrange buttons horizontally
       justifyContent: 'space-between', // Space them apart
       width: '100%', // Take the full width
+    },
+    myActiveJobsContainer: {
+      marginVertical: 20,
+      padding: 15,
+      backgroundColor: '#f0f0f0',
+      borderRadius: 8,
+      width: '80%', // Adjusted width
+    },
+    myActiveJobsHeader: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
     },
   });
 

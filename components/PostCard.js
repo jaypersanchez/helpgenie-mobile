@@ -5,7 +5,8 @@ const PostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
 
     const [showMoreInfo, setShowMoreInfo] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
-  const [bidAmount, setBidAmount] = useState('');
+    const [bidAmount, setBidAmount] = useState('');
+    
 
     const handleCardPress = () => {
         // Implement the logic to show more information
@@ -80,7 +81,10 @@ const PostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
 
             <TouchableOpacity
                 style={styles.closeButton}
-                onPress={() => setModalVisible(false)}
+                onPress={() => {
+                    setBidAmount(""); // Clear bid amount when closing
+                    setModalVisible(false);
+                }}
               >
                 <Text style={styles.closeButtonText}>X</Text>
               </TouchableOpacity>
@@ -91,7 +95,7 @@ const PostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
                 style={styles.input}
                 placeholder="Enter your bid amount"
                 keyboardType="numeric"
-                value={String(estimatedBudget)}
+                value={String(bidAmount)}
                 onChangeText={(text) => setBidAmount(text)}
               />
               <TouchableHighlight

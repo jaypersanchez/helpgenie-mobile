@@ -18,10 +18,11 @@ const MainApp = ({route}) => {
     
   const { user } = route.params;
   const [jobAds, setJobAds] = useState([]);
-
+  console.log(`Getting Available Jobs not posted by ${JSON.stringify(user)}`)
   useFocusEffect(
         useCallback(() => {
           if (user?.email) {
+            console.log(`MainApp USER ${JSON.stringify(user)}`)
             console.log(`MainApp User State ${user.userid}::${user.email}::${user.userid}::${user.token}`)
           }
         }, [])
@@ -61,13 +62,15 @@ const MainApp = ({route}) => {
   
 
   const getJobAds = async () => {
+
     try {
+      
       const response = await fetch('http://localhost:3000/get-postads', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userid: user.userId }),
+      body: JSON.stringify({ userid: user.userid }),
     });
       
       if (!response.ok) {
@@ -75,6 +78,7 @@ const MainApp = ({route}) => {
       }
   
       const data = await response.json();
+      console.log(`getJobAds ${data}`)
       // Assuming data is an array of job ads
       const transformedData = data.map(jobAd => ({
         id: jobAd._id,
