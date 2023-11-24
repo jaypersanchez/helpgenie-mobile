@@ -59,6 +59,26 @@ const PaymentMethods = ( user ) => {
             value={paymentInfo.card.number}
             onChangeText={(text) => setPaymentInfo({ ...paymentInfo, card: { ...paymentInfo.card, number: text } })}
           />
+
+          <TextInput
+            placeholder="Name on Card"
+            value={paymentInfo.card.name}
+            onChangeText={(text) => setPaymentInfo({ ...paymentInfo, card: { ...paymentInfo.card, name: text } })}
+          />
+
+          <View style={styles.inlineInputs}>
+            <TextInput
+              placeholder="Expiry Date (MM/YY)"
+              value={paymentInfo.card.expiry}
+              onChangeText={(text) => setPaymentInfo({ ...paymentInfo, card: { ...paymentInfo.card, expiry: text } })}
+            />
+
+            <TextInput
+              placeholder="CVV"
+              value={paymentInfo.card.cvv}
+              onChangeText={(text) => setPaymentInfo({ ...paymentInfo, card: { ...paymentInfo.card, cvv: text } })}
+            />
+          </View>
           {/* Add more input fields for expiry, name, and CVV */}
         </View>
       )}
@@ -88,6 +108,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       padding: 20,
+      marginTop:100
     },
     methodSelection: {
       flexDirection: 'row',
@@ -101,6 +122,10 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-around',
       marginTop: 20,
+    },
+    inlineInputs: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
   });
 

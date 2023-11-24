@@ -11,7 +11,7 @@ const Settings = ( {route} ) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate('PaymentMethods', { user })} style={styles.button}>
+      <TouchableOpacity onPress={() => navigation.navigate('PaymentMethods', { user })} style={styles.greenButton}>
         <Text style={styles.buttonText}>Payment Methods</Text>
       </TouchableOpacity>
 
@@ -40,6 +40,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
     padding: 10,
     borderRadius: 5,
+    marginTop: 10,
+    marginBottom: 10
   },
   buttonText: {
     color: 'white',
