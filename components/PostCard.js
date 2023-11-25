@@ -7,6 +7,7 @@ const PostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [bidAmount, setBidAmount] = useState('');
     
+    console.log(`BidDataSubmit ${jobid} ${userid} ${estimatedBudget}`)
 
     const handleCardPress = () => {
         // Implement the logic to show more information
@@ -26,7 +27,7 @@ const PostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
           bidderId: userid,
           bidAmount: bidAmount,
         };
-    
+        
         const response = await fetch('http://localhost:3000/bid', {
           method: 'POST',
           headers: {
@@ -44,7 +45,7 @@ const PostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
       } catch (error) {
         console.error('Error submitting bid:', error);
         // Handle the error as needed
-        Alert.alert('Error', 'Failed to submit bid. Please try again later.');
+        //Alert.alert('Error', 'Failed to submit bid. Please try again later.');
       }
     };
 

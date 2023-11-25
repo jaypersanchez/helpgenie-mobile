@@ -64,7 +64,7 @@ const MyActiveJobsCard = ({ userid, jobuserid, jobid, title, content, estimatedB
       } catch (error) {
         console.error('Error submitting bid:', error);
         // Handle the error as needed
-        Alert.alert('Error', 'Failed to submit bid. Please try again later.');
+        //Alert.alert('Error', 'Failed to submit bid. Please try again later.');
       }
     };
 
@@ -104,7 +104,7 @@ const MyActiveJobsCard = ({ userid, jobuserid, jobid, title, content, estimatedB
         catch (error) {
             console.error('Error submitting message:', error);
             // Handle the error as needed
-            Alert.alert('Error', 'Failed to send message. Please try again later.');
+            //Alert.alert('Error', 'Failed to send message. Please try again later.');
         }
     };
 

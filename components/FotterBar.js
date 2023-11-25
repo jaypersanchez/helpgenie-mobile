@@ -3,11 +3,13 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
+import { useUser } from './UserContext';
 
-const FooterBar = ({ user }) => {
+const FooterBar = () => {
   
   const navigation = useNavigation();
-  console.log(`FooterBar ${JSON.stringify(user)}::${user.email}::${user.userid}`)
+  const { user } = useUser()
+  console.log(`FooterBar ${JSON.stringify(user)}::${user.data.email}::${user.data.userid}`)
 
   const handlePlusSquarePress = async () => {
     navigation.navigate('PostJobAd', {user});

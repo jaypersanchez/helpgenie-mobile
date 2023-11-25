@@ -66,7 +66,7 @@ const PostJobAd = ({ route }) => {
     } catch (error) {
       console.error('Error:', error);
       // Show an alert for any unexpected errors
-      Alert.alert('Error', 'Failed to save job ad. Please try again.');
+      //Alert.alert('Error', 'Failed to save job ad. Please try again.');
     }
   };
   

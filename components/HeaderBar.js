@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { useUser } from './UserContext';
 
 const CustomSpinner = () => {
   return (
@@ -12,29 +13,24 @@ const CustomSpinner = () => {
   );
 };
 
-const HeaderBar = ({user}) => {
+const HeaderBar = () => {
 
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+  const { user } = useUser()
+  console.log(`HeaderBar useUser ${JSON.stringify(user)}::${user.data.firstname}::${user.data.email}::${user.data.userid}`)
   
-  console.log(`HeaderBar ${user.firstname}::${user.email}::${user.userid}`)
-  /*const navigateToUserProfile = () => {
-    navigation.navigate('UserProfile')
-  }*/
   const navigateToUserProfile = () => {
     setLoading(true); // Show the spinner
 
     // Simulate an action that takes 3 seconds
     setTimeout(() => {
       setLoading(false); // Hide the spinner
-      navigation.navigate('UserProfile', {user}); // Move to the next screen
+      navigation.navigate('UserProfile'); // Move to the next screen
       setLoading(false);
     }, 3000);
   };
 
-  /*const about = () => {
-    Alert.alert(`HelpGenie`, `Beta 0.1`)
-  }*/
   const about = () => {
     setLoading(true); // Show the spinner
 
@@ -55,7 +51,7 @@ const HeaderBar = ({user}) => {
         style={styles.rightIcon}
       />
       </TouchableOpacity>
-        <Text style={styles.headerText}>Hello {user.firstname} Please Help Juan</Text>
+        <Text style={styles.headerText}>Hello {user.data.firstname} Please Help Juan</Text>
         
         <TouchableOpacity onPress={navigateToUserProfile}>
       <Image
