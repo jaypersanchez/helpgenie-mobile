@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, Button, TextInput, FlatList, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const PaymentMethods = ( user ) => {
+const PaymentMethods = ( { route } ) => {
 
-    console.log(`PaymentMethodsTab ${JSON.stringify(user)}`)
+    const { user } = route.params
+    console.log(`PaymentMethodsTab ${JSON.stringify(user.user.userid)}`)
     const navigation = useNavigation();
 
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('GCash');
@@ -14,10 +15,51 @@ const PaymentMethods = ( user ) => {
       paypal: { email: '' },
     });
 
-    const handleSave = () => {
+    const handleSave = async () => {
         // Save the payment information based on the selected method
-        console.log('Saving payment info:', paymentInfo[selectedPaymentMethod]);
-    
+        console.log('Saving payment info:', selectedPaymentMethod);
+        if (selectedPaymentMethod === 'GCash') {
+          data = {
+            mobile: paymentInfo.gcash.phone,
+          };
+        } else if (selectedPaymentMethod === 'card') {
+          data = {
+            cardNumber: paymentInfo.card.number,
+            cardName: paymentInfo.card.name,
+            cardExpiry: paymentInfo.card.expiry,
+            cardCVV: paymentInfo.card.cvv,
+          };
+        } else if (selectedPaymentMethod === 'Paypal') {
+          data = {
+            paypalEmail: paymentInfo.paypal.email,
+          };
+        }
+        
+        // Make a POST request to the endpoint
+        try {
+
+          const response = await fetch('http://localhost:3000/paymentmethods', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              userId: user.user.userid, // Provide the actual user ID
+              selectedPaymentMethod,
+              data,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to save payment method');
+          }
+
+          const result = await response.json();
+          console.log(result.message); // Log the success message
+        } catch (error) {
+          console.error('Error saving payment method:', error);
+        }
+
         // Navigate back to the Settings component
         navigation.goBack();
     };
@@ -26,7 +68,7 @@ const PaymentMethods = ( user ) => {
   const handleSetDefault = (index) => {
     // Set the selected payment method as the default
     // (add your logic to update the default payment method in your state)
-    console.log('Setting default:', paymentMethods[index]);
+    console.log('Setting default:', selectedPaymentMethod[index]);
   };
 
   return (
@@ -35,7 +77,7 @@ const PaymentMethods = ( user ) => {
       <View style={styles.methodSelection}>
         <Button title="GCash" onPress={() => setSelectedPaymentMethod('GCash')} />
         <Button title="Debit/Credit" onPress={() => setSelectedPaymentMethod('card')} />
-        <Button title="PayPal" onPress={() => setSelectedPaymentMethod('paypal')} />
+        <Button title="PayPal" onPress={() => setSelectedPaymentMethod('Paypal')} />
       </View>
 
       {/* GCash Section */}
@@ -84,7 +126,7 @@ const PaymentMethods = ( user ) => {
       )}
 
       {/* PayPal Section */}
-      {selectedPaymentMethod === 'paypal' && (
+      {selectedPaymentMethod === 'Paypal' && (
         <View style={styles.section}>
           <Text>Enter your PayPal email address:</Text>
           <TextInput
