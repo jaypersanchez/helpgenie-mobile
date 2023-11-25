@@ -23,7 +23,7 @@ const FooterBar = ({ user }) => {
   }
 
   const handleSettings = () => {
-    navigation.navigate('Settings');
+    navigation.navigate('Settings', {user});
   }
 
   /*

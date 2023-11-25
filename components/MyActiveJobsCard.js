@@ -140,9 +140,14 @@ const MyActiveJobsCard = ({ userid, jobuserid, jobid, title, content, estimatedB
                 </TouchableOpacity>
             </View>
             ))}
+            {/* Conditionally render "Project Active" based on bidder.rewarded */}
+    {bidders && bidders.rewarded && (
+      <Text style={{ color: 'green', fontWeight: 'bold' }}>Project Active</Text>
+    )}
         </View>
         )}
 
+             
 
         {/* Modal for messaging */}
         <Modal
