@@ -3,21 +3,22 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView,
         Modal, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PostCard from './PostCard';
-//import MyJobPostCard from './MyJobPostCard';
+import { useUser } from './UserContext';
 import MyActiveJobsCard from './MyActiveJobsCard'
 import { v4 as uuidv4 } from 'uuid';
 
 
 const SearchForJobs = ( {route} ) => {
 
-  const { email, firstname, token, userid } = route.params.user;
+  const { email, firstname, token } = route.params.user;
+  const { user } = useUser()
   const navigation = useNavigation();
   const [searchString, setSearchString] = useState()
   const [searchResults, setSearchResults] = useState([]);
   const [myActiveJobs, setMyActiveJobs] = useState([]);
 
   useEffect(() => {
-    console.log("Received User in SearchForJobs:", email, userid);
+    console.log("Received User in SearchForJobs:", email, user.data.userid);
   }, []);
 
   const handleSearch = async () => {
@@ -68,14 +69,14 @@ const SearchForJobs = ( {route} ) => {
   const fetchMyActiveJobs = async () => {
     try {
       // Make a request to your endpoint to get user's active jobs
-      const response = await fetch(`http://localhost:3000/user-bids/${userid}`);
+      const response = await fetch(`http://localhost:3000/user-bids/${user.data.userid}`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       const data = await response.json();
       // Update state with user's active jobs
-      console.log(`MyActiveJobs by ${userid}::${JSON.stringify(data)}`)
+      console.log(`MyActiveJobs by ${user.data.userid}::${JSON.stringify(data)}`)
       setMyActiveJobs(data);
     } catch (error) {
       console.error('Error:', error);
@@ -130,7 +131,7 @@ const SearchForJobs = ( {route} ) => {
             {myActiveJobs.map((job) => (
               <MyActiveJobsCard
                 key={uuidv4()}
-                userid={userid}
+                userid={user.data.userid}
                 jobuserid={job.userid}
                 jobid={job.jobid} 
                 title={job.title}

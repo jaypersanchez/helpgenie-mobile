@@ -3,12 +3,14 @@ import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert, Scr
 import { useNavigation } from '@react-navigation/native';
 import PostCard from './PostCard';
 import MyJobPostCard from './MyJobPostCard';
+import { useUser } from './UserContext';
 
 const PostJobAd = ({ route }) => {
 
-  const user = route.params?.user;
+  //const user = route.params?.user;
+  const { user } = useUser()
   const navigation = useNavigation();
-  const [userid, setUserId] = useState(user.userid)
+  const [userid, setUserId] = useState(user.data.userid)
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [budget, setBudget] = useState('');

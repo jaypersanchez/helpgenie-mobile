@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert,  Modal, TouchableHighlight, TextInput } from 'react-native';
+import { useUser } from './UserContext';
 
-const PostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
+const PostCard = ({ jobid, title, content, estimatedBudget }) => {
 
+    const { user } = useUser()
+    //const [userid, setUserId] = useState(userid)
+    //const [jobid,setJobId]=useState(_jobid)
     const [showMoreInfo, setShowMoreInfo] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
     const [bidAmount, setBidAmount] = useState('');
     
-    console.log(`BidDataSubmit ${jobid} ${userid} ${estimatedBudget}`)
+    console.log(`BidDataSubmit ${jobid} ${user.data.userid} ${estimatedBudget}`)
 
     const handleCardPress = () => {
         // Implement the logic to show more information
@@ -24,7 +28,7 @@ const PostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
         // Assume you have jobId, bidderId, and bidAmount available
         const bidData = {
           jobId: jobid,
-          bidderId: userid,
+          bidderId: user.data.userid,
           bidAmount: bidAmount,
         };
         

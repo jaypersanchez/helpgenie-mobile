@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { useUser } from './UserContext';
 
-const MessagesCard = ({ user, jobad, title, content }) => {
+const MessagesCard = ({ jobad, title, content }) => {
 
-    console.log(`MessagesCard ${JSON.stringify(user)}::${user.user.userid}::${user.bids}`)
+    const { user } = useUser()
+    console.log(`MessagesCard ${JSON.stringify(user)}::${user.data.userid}::${user.bids}`)
     const [showMoreInfo, setShowMoreInfo] = useState(false);
     const [replyModalVisible, setReplyModalVisible] = useState(false);
     const [replyMessage, setReplyMessage] = useState('');
@@ -32,7 +34,7 @@ const MessagesCard = ({ user, jobad, title, content }) => {
       const endpoint = `http://localhost:3000/job/${replybidoid}/bid/${replybidid}/message`;
       // Construct the request body
       const requestBody = {
-        senderId: user.user.userid,
+        senderId: user.data.userid,
         receiverId: replybidderid,
         message: replyMessage,
       };

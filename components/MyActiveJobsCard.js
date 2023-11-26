@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert,  Modal, TouchableHighlight, TextInput } from 'react-native';
-//import ClientBidderComponent from './ClientBidderComponent';
+import { useUser } from './UserContext';
 
-const MyActiveJobsCard = ({ userid, jobuserid, jobid, title, content, estimatedBudget }) => {
+const MyActiveJobsCard = ({ jobuserid, jobid, title, content, estimatedBudget }) => {
 
+    const { user } = useUser()
     const [showMoreInfo, setShowMoreInfo] = useState(false);
     const [bidAmount, setBidAmount] = useState('');
     const [bidders, setBidders] = useState([]);
@@ -13,17 +14,17 @@ const MyActiveJobsCard = ({ userid, jobuserid, jobid, title, content, estimatedB
     const [isModalVisible, setModalVisible] = useState(false);
     const [message, setMessage]=useState('')
 
-    console.log(`Getting messages for jobid ${jobid} posted by ${jobuserid} from bidder ${userid}`)
+    console.log(`Getting messages for jobid ${jobid} posted by ${jobuserid} from bidder ${user.data.userid}`)
 
     const handleCardPress = async () => {
         // Fetch messages for bidders when the Card is tapped
         try {
-            const response = await fetch(`http://localhost:3000/job/${jobid}/bid/${userid}/messages`);
+            const response = await fetch(`http://localhost:3000/job/${jobid}/bid/${user.data.userid}/messages`);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             else {
-                console.log(`Messages for ${jobid} and ${userid} found`)
+                console.log(`Messages for ${jobid} and ${user.data.userid} found`)
             }
             const data = await response.json();
             console.log('Bidders:', data);
@@ -43,7 +44,7 @@ const MyActiveJobsCard = ({ userid, jobuserid, jobid, title, content, estimatedB
         // Assume you have jobId, bidderId, and bidAmount available
         const bidData = {
           jobId: jobid,
-          bidderId: userid,
+          bidderId: user.data.userid,
           bidAmount: bidAmount,
         };
     
@@ -78,15 +79,15 @@ const MyActiveJobsCard = ({ userid, jobuserid, jobid, title, content, estimatedB
     const sendMessage = async () => {
         
         try {
-            console.log(`MsgURL http://localhost:3000/job/${jobid}/bid/${userid}/bidder-message`)
-            console.log(`Sending Message To ${JSON.stringify(jobuserid)} from ${userid} to ${jobuserid} message is ${message}`)
+            console.log(`MsgURL http://localhost:3000/job/${jobid}/bid/${user.data.userid}/bidder-message`)
+            console.log(`Sending Message To ${JSON.stringify(jobuserid)} from ${user.data.userid} to ${jobuserid} message is ${message}`)
             const messageData = {
-                senderId: userid,
+                senderId: user.data.userid,
                 receiverId: jobuserid,
                 message: message,
             };
             
-            const response = await fetch(`http://localhost:3000/job/${jobid}/bid/${userid}/bidder-message`, {
+            const response = await fetch(`http://localhost:3000/job/${jobid}/bid/${user.data.userid}/bidder-message`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
