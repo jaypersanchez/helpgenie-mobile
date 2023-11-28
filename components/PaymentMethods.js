@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, Button, TextInput, FlatList, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useUser } from './UserContext'
 
 const PaymentMethods = ( { route } ) => {
 
-    const { user } = route.params
-    console.log(`PaymentMethodsTab ${JSON.stringify(user.user.userid)}`)
+    const { user, env } = useUser()
+    console.log(`PaymentMethodsTab ${JSON.stringify(user.data.userid)}`)
     const navigation = useNavigation();
 
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('GCash');
@@ -38,13 +39,13 @@ const PaymentMethods = ( { route } ) => {
         // Make a POST request to the endpoint
         try {
 
-          const response = await fetch('http://localhost:3000/paymentmethods', {
+          const response = await fetch(`${env.apiUrl}/paymentmethods`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              userId: user.user.userid, // Provide the actual user ID
+              userId: user.data.userid, // Provide the actual user ID
               selectedPaymentMethod,
               data,
             }),

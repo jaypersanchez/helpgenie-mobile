@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert,  Modal, TouchableHighlight, TextInput } from 'react-native';
 //import ClientBidderComponent from './ClientBidderComponent';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { useUser } from './UserContext';
 
-const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
+const MyJobPostCard = ({ jobid, title, content, estimatedBudget }) => {
 
+    const {user, env} = useUser()
     const [loading, setLoading] = useState(false);
     const [showMoreInfo, setShowMoreInfo] = useState(false);
     const [bidAmount, setBidAmount] = useState('');
@@ -15,12 +17,12 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [message, setMessage]=useState([])
 
-    console.log(`data ${userid}:${jobid}::${title}`)
+    console.log(`MyJobPostCard ${JSON.stringify(user.data.userid)}`)
 
     const handleCardPress = async () => {
         // Fetch bidders when the Card is tapped
         try {
-            const response = await fetch(`http://localhost:3000/job/${jobid}/bidders?userId=${userid}`);
+            const response = await fetch(`${env.apiUrl}/job/${jobid}/bidders?userId=${user.data.userid}`);
             if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -38,7 +40,7 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
     };
   
     const getDirectMessages = async (bidderInfo) => {
-      fetch(`http://localhost:3000/job/${jobid}/bid/${bidderInfo.bidderId}/messages`)
+      fetch(`${env.apiUrl}/job/${jobid}/bid/${bidderInfo.bidderId}/messages`)
       .then((response) => response.json())
       .then((data) => {
         console.log('getDirectMessages:', data);
@@ -56,11 +58,11 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
         // Assume you have jobId, bidderId, and bidAmount available
         const bidData = {
           jobId: jobid,
-          bidderId: userid,
+          bidderId: user.data.userid,
           bidAmount: bidAmount,
         };
     
-        const response = await fetch('http://localhost:3000/bid', {
+        const response = await fetch(`${env.apiUrl}/bid`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -77,7 +79,7 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
       } catch (error) {
         console.error('Error submitting bid:', error);
         // Handle the error as needed
-        Alert.alert('Error', 'Failed to submit bid. Please try again later.');
+        //Alert.alert('Error', 'Failed to submit bid. Please try again later.');
       }
     };
 
@@ -86,7 +88,7 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
         console.log(`handleBidderNamePress ${JSON.stringify(bidderInfo)}`)
 
           // Fetch messages for the specific job and bidder
-          fetch(`http://localhost:3000/job/${jobid}/bid/${bidderInfo.bidderId}/messages`)
+          fetch(`${env.apiUrl}/job/${jobid}/bid/${bidderInfo.bidderId}/messages`)
           .then((response) => response.json())
           .then((data) => {
             console.log('Messages:', data);
@@ -110,11 +112,11 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
         try {
             
             const messageData = {
-                senderId: userid,
+                senderId: user.data.userid,
                 receiverId: bidderInfo.bidderId,
                 message: message,
             };
-            const response = await fetch(`http://localhost:3000/job/${jobid}/bid/${bidderInfo.jobbidid}/message`, {
+            const response = await fetch(`${env.apiUrl}/job/${jobid}/bid/${bidderInfo.jobbidid}/message`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -132,7 +134,7 @@ const MyJobPostCard = ({ userid, jobid, title, content, estimatedBudget }) => {
         catch (error) {
             console.error('Error submitting message:', error);
             // Handle the error as needed
-            Alert.alert('Error', 'Failed to send message. Please try again later.');
+            //Alert.alert('Error', 'Failed to send message. Please try again later.');
         }
     };
 

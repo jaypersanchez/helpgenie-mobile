@@ -2,19 +2,20 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import MainApp from './MainApp';
-
+import { useUser } from './UserContext'
 
 const AuthScreen = ({ navigation }) => {
 
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
-
-  const [user, setUser] = useState({
+  const { setUser, env } = useUser();
+  //console.log(`environment ${env.apiUrl}`)
+  /*const [user, setUser] = useState({
     id: 1,
     username: 'exampleUser',
     email: 'user@example.com',
     // Other user data you want to include
-  });
+  });*/
   
 const handleLogin = async () => {
       console.log(`login`)
@@ -27,7 +28,7 @@ const handleLogin = async () => {
         throw new Error(`Invalid inputs`);
       }
 
-      const response = await fetch('http://127.0.0.1:3000/login', {
+      const response = await fetch(`${env.apiUrl}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,9 +40,10 @@ const handleLogin = async () => {
       });
       
       const data = await response.json();
-      console.log(`data ${JSON.stringify(data)}`)
       if (data.message === "success") {
         // Login was successful, navigate to MainApp
+        console.log(`data ${JSON.stringify(data)}`)
+        setUser({data})
         navigation.navigate('MainApp', { user: data });
       } else {
         // Login failed, display an alert with the error message
@@ -61,7 +63,7 @@ const handleLogin = async () => {
         throw new Error(`Invalid inputs`);
       }
 
-      const response = await fetch('http://127.0.0.1:3000/new-account', {
+      const response = await fetch(`${env.apiUrl}/new-account`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,21 +81,25 @@ const handleLogin = async () => {
       //console.log(`Register Data ${data}`)
       if (data.message === 'success') {
         // Registration was successful, navigate to MainApp
-        navigation.navigate('MainApp', {user: data});
+        setUser({data})
+        //navigation.navigate('MainApp', {user: data});
+        navigation.navigate('MainApp')
       } else {
         // Registration failed, display an alert with the error message
         Alert.alert('Registration Failed', data.error);
       }
-  
-      // Handle the response data or perform any necessary actions
-      //console.log('Registration response:', data);
-  
       
     } catch (error) {
       console.error('Error registering:', error);
       // Handle the error, show an error message, etc.
     }
   }
+
+  const handleLogout = () => {
+    // Your logout logic
+    // After successful logout
+    setUser(null);
+  };
 
   const validateInputs = async () => {
     // Validate email format

@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ImagePicker from 'react-native-image-picker';
+import { useUser } from './UserContext';
 
 const UserProfile = ({ navigation, route }) => {
     
-  const { user } = route.params;
+  //const { user } = route.params;
+  const { user, env } = useUser()
   const [userImage, setUserImage] = useState(null);
   const [loading, setLoading] = useState(false);  
   const [email, setEmail] = useState('');
@@ -27,7 +29,7 @@ const UserProfile = ({ navigation, route }) => {
 
   const updateUserImage = async (imageUri) => {
     try {
-      const response = await fetch('http://your-api-endpoint/update-profile', {
+      const response = await fetch(`${env.apiUrl}/update-profile`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -49,7 +51,7 @@ const UserProfile = ({ navigation, route }) => {
   
   const retrieveProfileData = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:3000/get-profile?email=${user.email}`);
+      const response = await fetch(`${env.apiUrl}/get-profile?email=${user.data.email}`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -78,7 +80,7 @@ const UserProfile = ({ navigation, route }) => {
   
     setLoading(true);
   
-    fetch('http://localhost:3000/update-profile', {
+    fetch(`${env.apiUrl}/update-profile`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -104,12 +106,12 @@ const UserProfile = ({ navigation, route }) => {
         setLoading(false);
   
         console.error('Error saving profile:', error);
-        Alert.alert('Error', 'Failed to save profile. Please try again.');
+        //Alert.alert('Error', 'Failed to save profile. Please try again.');
       });
   };
 
   const handleBack = () => {
-    navigation.navigate('MainApp', {user})
+    navigation.navigate('MainApp')
   }
 
   useEffect(() => {

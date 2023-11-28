@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { useUser } from './UserContext';
 
-const MessagesCard = ({ user, jobad, title, content }) => {
+const MessagesCard = ({ jobad, title, content }) => {
 
-    console.log(`MessagesCard ${JSON.stringify(user)}::${user.user.userid}::${user.bids}`)
+    const { user, env } = useUser()
+    console.log(`MessagesCard ${JSON.stringify(user)}::${user.data.userid}::${user.bids}`)
     const [showMoreInfo, setShowMoreInfo] = useState(false);
     const [replyModalVisible, setReplyModalVisible] = useState(false);
     const [replyMessage, setReplyMessage] = useState('');
@@ -28,11 +30,10 @@ const MessagesCard = ({ user, jobad, title, content }) => {
 
     const handleSendMessage = () => {
       // Construct the endpoint URL based on jobad and current user
-      //const endpoint = `http://localhost:3000/job/${jobad._id.$oid}/bid/${user.user.userid}/bidder-message`;
-      const endpoint = `http://localhost:3000/job/${replybidoid}/bid/${replybidid}/message`;
+      const endpoint = `${env.apiUrl}/job/${replybidoid}/bid/${replybidid}/message`;
       // Construct the request body
       const requestBody = {
-        senderId: user.user.userid,
+        senderId: user.data.userid,
         receiverId: replybidderid,
         message: replyMessage,
       };
@@ -62,7 +63,7 @@ const MessagesCard = ({ user, jobad, title, content }) => {
     const handleRewardPress = (jobId, bidId) => {
       // Construct the endpoint URL based on jobad and bid
       console.log(`Reward to ${jobId}/${bidId}`)
-      const endpoint = `http://localhost:3000/job/reward-bid/${jobId}/${bidId}`;
+      const endpoint = `${env.apiUrl}/job/reward-bid/${jobId}/${bidId}`;
     
       // Send the reward request using fetch or your preferred method
       fetch(endpoint, {

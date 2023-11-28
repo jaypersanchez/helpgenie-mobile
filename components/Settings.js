@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PaymentMethods from './PaymentMethods';
+import { useUser } from './UserContext';
 
 const Settings = ( {route} ) => {
 
-  const user = route.params;
-  console.log(`SettingsTab ${JSON.stringify(user)}::${user.user.userid}`)
+  //const user = route.params;
+  const { user, env } = useUser();
+  console.log(`SettingsTab ${JSON.stringify(user)}::${user.data.userid}`)
   const navigation = useNavigation();  
 
   return (

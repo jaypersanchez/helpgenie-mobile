@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import MessagesCard from './MessagesCard';
 import { useNavigation } from '@react-navigation/native';
+import { useUser } from './UserContext';
 
 const Messages = ( {route} ) => {
 
-    const user = route.params;
-    console.log(`MessagesTab ${JSON.stringify(user)}::${user.user.userid}`)
+    //const user = route.params;
+    const { user, env } = useUser()
+    console.log(`MessagesTab ${JSON.stringify(user)}::${user.data.userid}`)
     const navigation = useNavigation();
     const [jobAds, setJobAds] = useState([]);
 
@@ -14,7 +16,7 @@ const Messages = ( {route} ) => {
       // Fetch job ads data for the user
       const fetchJobAds = async () => {
         try {
-          const response = await fetch(`http://localhost:3000/jobads/${user.user.userid}`);
+          const response = await fetch(`${env.apiUrl}/jobads/${user.data.userid}`);
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
@@ -28,7 +30,7 @@ const Messages = ( {route} ) => {
       };
   
       fetchJobAds(); // Call the function when the component mounts
-    }, [user.userid]);
+    }, [user.data.userid]);
 
 
       return (
@@ -38,9 +40,9 @@ const Messages = ( {route} ) => {
             {jobAds.map((jobad) => (
               <TouchableOpacity
                 key={jobad._id.$oid}
-                onPress={() => navigation.navigate('MessagesCard', { user, jobad })}
+                onPress={() => navigation.navigate('MessagesCard', { jobad })}
               >
-                <MessagesCard user={user} jobad={jobad} title={jobad.title} content={jobad.description} />
+                <MessagesCard jobad={jobad} title={jobad.title} content={jobad.description} />
               </TouchableOpacity>
             ))}
           </ScrollView>
