@@ -81,7 +81,7 @@ const PostJobAd = ({ route }) => {
     try {
       // Assuming route.params.user.userid is the current user's ID
       //const userId = route.params.user.userid;
-      const response = await fetch(`${env.apiUrl}/get-jobads/${userid}`);
+      const response = await fetch(`${env.apiUrl}/get-jobads/${user.data.userid}`);
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -148,7 +148,7 @@ const PostJobAd = ({ route }) => {
           {userJobAds.map((jobAd) => (
             <MyJobPostCard
             key={jobAd._id}  // Assuming '_id' is the unique identifier
-            userid={userid} 
+            userid={user.data.userid} 
             jobid={jobAd._id}
             title={jobAd.title}
             content={jobAd.description}
