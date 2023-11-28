@@ -7,8 +7,7 @@ import { useUser } from './UserContext';
 
 const PostJobAd = ({ route }) => {
 
-  //const user = route.params?.user;
-  const { user } = useUser()
+  const { user, env } = useUser()
   const navigation = useNavigation();
   const [userid, setUserId] = useState(user.data.userid)
   const [title, setTitle] = useState('');
@@ -39,7 +38,7 @@ const PostJobAd = ({ route }) => {
        * from proceeding.
        */
       // Make a POST request to save the job ad
-      const response = await fetch('http://localhost:3000/post-postads', {
+      const response = await fetch(`${env.apiUrl}/post-postads`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -82,7 +81,7 @@ const PostJobAd = ({ route }) => {
     try {
       // Assuming route.params.user.userid is the current user's ID
       //const userId = route.params.user.userid;
-      const response = await fetch(`http://localhost:3000/get-jobads/${userid}`);
+      const response = await fetch(`${env.apiUrl}/get-jobads/${userid}`);
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

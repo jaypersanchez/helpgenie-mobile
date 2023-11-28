@@ -18,7 +18,7 @@ const HeaderBar = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const { user } = useUser()
-  console.log(`HeaderBar useUser ${JSON.stringify(user)}::${user.data.firstname}::${user.data.email}::${user.data.userid}`)
+  console.log(`HeaderBar useUser ${JSON.stringify(user)}`)
   
   const navigateToUserProfile = () => {
     setLoading(true); // Show the spinner

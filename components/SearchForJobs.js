@@ -6,6 +6,7 @@ import PostCard from './PostCard';
 import { useUser } from './UserContext';
 import MyActiveJobsCard from './MyActiveJobsCard'
 import { v4 as uuidv4 } from 'uuid';
+import { API_URL, DEBUG } from '@env';
 
 
 const SearchForJobs = ( {route} ) => {
@@ -26,7 +27,7 @@ const SearchForJobs = ( {route} ) => {
       console.log(`Searching for jobs with keyword: ${searchString}`);
       
       // Make a request to the search endpoint
-      const response = await fetch(`http://localhost:3000/search-ads?search=${encodeURIComponent(searchString)}`);
+      const response = await fetch(`${API_URL}/search-ads?search=${encodeURIComponent(searchString)}`);
       
       // Check if the request was successful
       if (!response.ok) {
@@ -69,7 +70,7 @@ const SearchForJobs = ( {route} ) => {
   const fetchMyActiveJobs = async () => {
     try {
       // Make a request to your endpoint to get user's active jobs
-      const response = await fetch(`http://localhost:3000/user-bids/${user.data.userid}`);
+      const response = await fetch(`${API_URL}/user-bids/${user.data.userid}`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }

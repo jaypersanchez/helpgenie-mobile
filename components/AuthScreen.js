@@ -4,12 +4,12 @@ import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Image, Ale
 import MainApp from './MainApp';
 import { useUser } from './UserContext'
 
-
 const AuthScreen = ({ navigation }) => {
 
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
-  const { setUser } = useUser();
+  const { setUser, env } = useUser();
+  //console.log(`environment ${env.apiUrl}`)
   /*const [user, setUser] = useState({
     id: 1,
     username: 'exampleUser',
@@ -28,7 +28,7 @@ const handleLogin = async () => {
         throw new Error(`Invalid inputs`);
       }
 
-      const response = await fetch('http://127.0.0.1:3000/login', {
+      const response = await fetch(`${env.apiUrl}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const handleLogin = async () => {
         throw new Error(`Invalid inputs`);
       }
 
-      const response = await fetch('http://127.0.0.1:3000/new-account', {
+      const response = await fetch(`${env.apiUrl}/new-account`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ import { useUser } from './UserContext';
 const FooterBar = () => {
   
   const navigation = useNavigation();
-  const { user } = useUser()
+  const { user, env } = useUser()
   console.log(`FooterBar ${JSON.stringify(user)}::${user.data.email}::${user.data.userid}`)
 
   const handlePlusSquarePress = async () => {

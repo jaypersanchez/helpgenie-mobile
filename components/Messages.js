@@ -7,7 +7,7 @@ import { useUser } from './UserContext';
 const Messages = ( {route} ) => {
 
     //const user = route.params;
-    const { user } = useUser()
+    const { user, env } = useUser()
     console.log(`MessagesTab ${JSON.stringify(user)}::${user.data.userid}`)
     const navigation = useNavigation();
     const [jobAds, setJobAds] = useState([]);
@@ -16,7 +16,7 @@ const Messages = ( {route} ) => {
       // Fetch job ads data for the user
       const fetchJobAds = async () => {
         try {
-          const response = await fetch(`http://localhost:3000/jobads/${user.data.userid}`);
+          const response = await fetch(`${env.apiUrl}/jobads/${user.data.userid}`);
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }

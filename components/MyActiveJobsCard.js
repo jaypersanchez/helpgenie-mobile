@@ -4,7 +4,7 @@ import { useUser } from './UserContext';
 
 const MyActiveJobsCard = ({ jobuserid, jobid, title, content, estimatedBudget }) => {
 
-    const { user } = useUser()
+    const { user, env } = useUser()
     const [showMoreInfo, setShowMoreInfo] = useState(false);
     const [bidAmount, setBidAmount] = useState('');
     const [bidders, setBidders] = useState([]);
@@ -19,7 +19,7 @@ const MyActiveJobsCard = ({ jobuserid, jobid, title, content, estimatedBudget })
     const handleCardPress = async () => {
         // Fetch messages for bidders when the Card is tapped
         try {
-            const response = await fetch(`http://localhost:3000/job/${jobid}/bid/${user.data.userid}/messages`);
+            const response = await fetch(`${env.apiUrl}/job/${jobid}/bid/${user.data.userid}/messages`);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -48,7 +48,7 @@ const MyActiveJobsCard = ({ jobuserid, jobid, title, content, estimatedBudget })
           bidAmount: bidAmount,
         };
     
-        const response = await fetch('http://localhost:3000/bid', {
+        const response = await fetch(`${env.apiUrl}/bid`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ const MyActiveJobsCard = ({ jobuserid, jobid, title, content, estimatedBudget })
     const sendMessage = async () => {
         
         try {
-            console.log(`MsgURL http://localhost:3000/job/${jobid}/bid/${user.data.userid}/bidder-message`)
+            console.log(`MsgURL ${env.apiUrl}/job/${jobid}/bid/${user.data.userid}/bidder-message`)
             console.log(`Sending Message To ${JSON.stringify(jobuserid)} from ${user.data.userid} to ${jobuserid} message is ${message}`)
             const messageData = {
                 senderId: user.data.userid,
@@ -87,7 +87,7 @@ const MyActiveJobsCard = ({ jobuserid, jobid, title, content, estimatedBudget })
                 message: message,
             };
             
-            const response = await fetch(`http://localhost:3000/job/${jobid}/bid/${user.data.userid}/bidder-message`, {
+            const response = await fetch(`${env.apiUrl}/job/${jobid}/bid/${user.data.userid}/bidder-message`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

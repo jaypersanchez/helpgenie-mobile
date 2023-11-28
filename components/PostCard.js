@@ -4,7 +4,7 @@ import { useUser } from './UserContext';
 
 const PostCard = ({ jobid, title, content, estimatedBudget }) => {
 
-    const { user } = useUser()
+    const { user, env } = useUser()
     //const [userid, setUserId] = useState(userid)
     //const [jobid,setJobId]=useState(_jobid)
     const [showMoreInfo, setShowMoreInfo] = useState(false);
@@ -32,7 +32,7 @@ const PostCard = ({ jobid, title, content, estimatedBudget }) => {
           bidAmount: bidAmount,
         };
         
-        const response = await fetch('http://localhost:3000/bid', {
+        const response = await fetch(`${env.apiUrl}/bid`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

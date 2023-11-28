@@ -10,6 +10,7 @@ import { useRoute } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native'; 
 import { useUser } from './UserContext';
+import { API_URL, DEBUG } from '@env';
 
 const MainApp = ({route}) => {
     
@@ -63,7 +64,7 @@ const MainApp = ({route}) => {
 
     try {
       
-      const response = await fetch('http://localhost:3000/get-postads', {
+      const response = await fetch(`${API_URL}/get-postads`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
