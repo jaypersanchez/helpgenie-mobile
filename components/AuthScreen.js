@@ -8,6 +8,7 @@ const AuthScreen = ({ navigation }) => {
 
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
+  const [firstname, setFirstName] = useState() //needed right away in order not to break other components
   const { setUser, env } = useUser();
   //console.log(`environment ${env.apiUrl}`)
   /*const [user, setUser] = useState({
@@ -63,6 +64,10 @@ const handleLogin = async () => {
         throw new Error(`Invalid inputs`);
       }
 
+      if(!firstname) {
+        Alert.alert('Please provide your first name')
+        throw new Error(`Invalid inputs`);
+      }
       const response = await fetch(`${env.apiUrl}/new-account`, {
         method: 'POST',
         headers: {
@@ -70,6 +75,7 @@ const handleLogin = async () => {
         },
         body: JSON.stringify({
           email,
+          firstname,
           password,
         }),
       });
@@ -134,7 +140,8 @@ const handleLogin = async () => {
         
         <TextInput style={styles.input} placeholder="Email" onChangeText={(text) => setEmail(text)} />
         <TextInput style={styles.input} placeholder="Password" secureTextEntry onChangeText={(text) => setPassword(text)} />
-       
+        <TextInput style={styles.input} placeholder="Enter First Name if Registering" onChangeText={(text) => setFirstName(text)} />
+
         <View style={styles.container}>
           <TouchableOpacity onPress={handleLogin} style={styles.greenButton}>
             <Text style={styles.buttonText}>Login</Text>
