@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "HelpJuan",
-    "slug": "helpgenie-mobile",
+    "slug": "helpjuan-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/blue_collar_worker_logo1.png",
@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.jaypersanchez.helpjuanmobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "dad4dc19-dcb8-4c1e-8ab9-9b3a158e5f54"
+      }
     }
   }
 }

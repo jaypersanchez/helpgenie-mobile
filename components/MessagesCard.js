@@ -94,7 +94,8 @@ const MessagesCard = ({ jobad, title, content }) => {
           <View>
             {jobad.bids.map((bid) => (
               <View key={bid._id.$oid} style={{ marginBottom:20}} >
-                <Text>Bidder: {bid.bidderId}</Text>
+                <Text>Bidder ID: {bid.bidderId}</Text>
+                <Text>Bidder Name: {bid.firstname}</Text>
                 <Text>Bid Amount: {bid.bidAmount}</Text>
 
                 {/* Display messages for the bidder */}

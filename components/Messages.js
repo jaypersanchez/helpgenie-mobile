@@ -16,6 +16,7 @@ const Messages = ( {route} ) => {
       // Fetch job ads data for the user
       const fetchJobAds = async () => {
         try {
+          console.log(`Messages Getting all Job Ad`)
           const response = await fetch(`${env.apiUrl}/jobads/${user.data.userid}`);
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
