@@ -10,7 +10,18 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "env": {
+        "API_URL": "http://ec2-52-64-242-100.ap-southeast-2.compute.amazonaws.com:3000",
+        "DEBUG": "true"
+      }
+    },
+    "android": {
+      "env": {
+        "API_URL": "http://ec2-52-64-242-100.ap-southeast-2.compute.amazonaws.com:3000",
+        "DEBUG": "true"
+      }
+    }
   },
   "submit": {
     "production": {}
