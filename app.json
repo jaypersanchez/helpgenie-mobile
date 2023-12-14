@@ -31,6 +31,23 @@
       "eas": {
         "projectId": "dad4dc19-dcb8-4c1e-8ab9-9b3a158e5f54"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.com.virlanchainworks.fitspace",
+          "enableGooglePay": true
+        }
+      ]
+    ]
   }
 }

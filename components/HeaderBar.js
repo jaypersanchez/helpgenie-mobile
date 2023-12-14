@@ -8,7 +8,7 @@ const CustomSpinner = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       {/* You can use your custom image or any content here */}
-      <Image source={require('../assets/blue_collar_worker_logo1.png')} />
+      <Image source={require('../assets/HelpJuan_Logo_5.png')} />
     </View>
   );
 };
@@ -47,7 +47,7 @@ const HeaderBar = () => {
 
       <TouchableOpacity onPress={about}>
       <Image
-        source={require('../assets/blue_collar_worker_logo1.png')} // Adjust the path as needed
+        source={require('../assets/HelpJuan_Logo_5.png')} // Adjust the path as needed
         style={styles.rightIcon}
       />
       </TouchableOpacity>
