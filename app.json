@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "HelpJuan",
+    "name": "Help Juan",
     "slug": "helpjuan-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/blue_collar_worker_logo1.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -21,33 +21,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.jaypersanchez.helpjuanmobile"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "dad4dc19-dcb8-4c1e-8ab9-9b3a158e5f54"
-      }
-    },
-    "plugins": [
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "usesCleartextTraffic": true
-          }
-        }
-      ],
-      [
-        "@stripe/stripe-react-native",
-        {
-          "merchantIdentifier": "merchant.com.virlanchainworks.fitspace",
-          "enableGooglePay": true
-        }
-      ]
-    ]
+    }
   }
 }
